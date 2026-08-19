@@ -1,10 +1,13 @@
+// Entry point of E.V., a Spiderman: Brand New Day themed chatbot reading and executing user commands for Jonathan Parker?
+
 import java.util.Scanner;
 
 public class EV {
+    private static final int MAX_TASKS = 100;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Task[] tasks = new Task[100];
+        Task[] tasks = new Task[MAX_TASKS];
         int taskCount = 0;
 
         System.out.println("E.V. online.");
@@ -54,9 +57,9 @@ public class EV {
             }
 
             if (input.startsWith("todo ")) {
-                String description = input.substring(5);
+                String description = input.substring("todo ".length());
 
-                tasks[taskCount] = new Task("T", description);
+                tasks[taskCount] = new Todo(description);
                 taskCount++;
 
                 printAdded(tasks[taskCount - 1], taskCount);
@@ -64,10 +67,10 @@ public class EV {
             }
 
             if (input.startsWith("deadline ")) {
-                String details = input.substring(9);
+                String details = input.substring("deadline ".length());
                 String[] parts = details.split(" /by ", 2);
 
-                tasks[taskCount] = new Task("D", parts[0], parts[1]);
+                tasks[taskCount] = new Deadline(parts[0], parts[1]);
                 taskCount++;
 
                 printAdded(tasks[taskCount - 1], taskCount);
@@ -75,11 +78,11 @@ public class EV {
             }
 
             if (input.startsWith("event ")) {
-                String details = input.substring(6);
+                String details = input.substring("event ".length());
                 String[] fromParts = details.split(" /from ", 2);
                 String[] timeParts = fromParts[1].split(" /to ", 2);
 
-                tasks[taskCount] = new Task("E", fromParts[0], timeParts[0], timeParts[1]);
+                tasks[taskCount] = new Event(fromParts[0], timeParts[0], timeParts[1]);
                 taskCount++;
 
                 printAdded(tasks[taskCount - 1], taskCount);
@@ -95,9 +98,16 @@ public class EV {
         scanner.close();
     }
 
+    /**
+     * Prints the confirmation shown after a task is added to the registry.
+     *
+     * @param task the task that was just added
+     * @param taskCount the number of tasks now in the registry
+     */
+
     private static void printAdded(Task task, int taskCount) {
         System.out.println("Task logged:");
         System.out.println("  " + task);
         System.out.println("Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks."));
-    }    
+    }
 }
