@@ -4,10 +4,8 @@ public class EV {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Store tasks while program runs
-        String[] tasks = new String[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
-        boolean[] isDone = new boolean[100];
 
         System.out.println("E.V. online.");
         System.out.println("Good evening, Jonathan.");
@@ -25,8 +23,7 @@ public class EV {
                 System.out.println("Current task registry:");
 
                 for (int i = 0; i < taskCount; i++) {
-                    String status = isDone[i] ? "X" : " ";
-                    System.out.println((i + 1) + ".[" + status + "] " + tasks[i]);
+                    System.out.println((i + 1) + "." + tasks[i]);
                 }
 
                 continue;
@@ -36,10 +33,10 @@ public class EV {
                 int taskNumber = Integer.parseInt(input.substring(5));
                 int index = taskNumber - 1;
 
-                isDone[index] = true;
+                tasks[index].markAsDone();
 
                 System.out.println("Task completed.");
-                System.out.println("[X] " + tasks[index]);
+                System.out.println(tasks[index]);
 
                 continue;
             }
@@ -48,16 +45,15 @@ public class EV {
                 int taskNumber = Integer.parseInt(input.substring(7));
                 int index = taskNumber - 1;
 
-                isDone[index] = false;
+                tasks[index].markAsNotDone();
 
                 System.out.println("Task reopened.");
-                System.out.println("[ ] " + tasks[index]);
+                System.out.println(tasks[index]);
 
                 continue;
             }
 
-            tasks[taskCount] = input;
-            isDone[taskCount] = false;
+            tasks[taskCount] = new Task(input);
             taskCount++;
 
             System.out.println("Task logged: " + input);
