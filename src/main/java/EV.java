@@ -53,10 +53,40 @@ public class EV {
                 continue;
             }
 
-            tasks[taskCount] = new Task(input);
-            taskCount++;
+            if (input.startsWith("todo ")) {
+                String description = input.substring(5);
 
-            System.out.println("Task logged: " + input);
+                tasks[taskCount] = new Task("T", description);
+                taskCount++;
+
+                printAdded(tasks[taskCount - 1], taskCount);
+                continue;
+            }
+
+            if (input.startsWith("deadline ")) {
+                String details = input.substring(9);
+                String[] parts = details.split(" /by ", 2);
+
+                tasks[taskCount] = new Task("D", parts[0], parts[1]);
+                taskCount++;
+
+                printAdded(tasks[taskCount - 1], taskCount);
+                continue;
+            }
+
+            if (input.startsWith("event ")) {
+                String details = input.substring(6);
+                String[] fromParts = details.split(" /from ", 2);
+                String[] timeParts = fromParts[1].split(" /to ", 2);
+
+                tasks[taskCount] = new Task("E", fromParts[0], timeParts[0], timeParts[1]);
+                taskCount++;
+
+                printAdded(tasks[taskCount - 1], taskCount);
+                continue;
+            }
+
+            System.out.println("Command not recognised.");
         }
 
         System.out.println();
@@ -64,4 +94,10 @@ public class EV {
 
         scanner.close();
     }
+
+    private static void printAdded(Task task, int taskCount) {
+        System.out.println("Task logged:");
+        System.out.println("  " + task);
+        System.out.println("Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks."));
+    }    
 }
