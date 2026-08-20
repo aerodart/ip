@@ -1,14 +1,12 @@
-/** Entry point of E.V., a Spiderman themed chatbot reading and executing user commands for Jonathan Parker? */
-
+import java.util.ArrayList;
 import java.util.Scanner;
 
+/** Entry point of E.V., a Spiderman themed chatbot reading and executing user commands for Jonathan Parker? */
 public class EV {
-    private static final int MAX_TASKS = 100;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Task[] tasks = new Task[MAX_TASKS];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
 
         System.out.println("E.V. online.");
         System.out.println("Good evening, Jonathan.");
@@ -34,59 +32,44 @@ public class EV {
                 if (command.equals("list")) {
                     System.out.println("Current task registry:");
 
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.println((i + 1) + "." + tasks[i]);
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println((i + 1) + "." + tasks.get(i));
                     }
 
                     continue;
                 }
 
                 if (command.equals("mark")) {
-                    int index = parseTaskIndex(arguments, taskCount);
+                    int index = parseTaskIndex(arguments, tasks.size());
+                    Task task = tasks.get(index);
 
-                    tasks[index].markAsDone();
+                    task.markAsDone();
 
                     System.out.println("Task completed.");
-                    System.out.println(tasks[index]);
-
+                    System.out.println(task);
                     continue;
                 }
 
                 if (command.equals("unmark")) {
-                    int index = parseTaskIndex(arguments, taskCount);
+                    int index = parseTaskIndex(arguments, tasks.size());
+                    Task task = tasks.get(index);
 
-                    tasks[index].markAsNotDone();
+                    task.markAsNotDone();
 
                     System.out.println("Task reopened.");
-                    System.out.println(tasks[index]);
-
+                    System.out.println(task);
                     continue;
                 }
 
                 if (command.equals("delete")) {
-                    int index = parseTaskIndex(arguments, taskCount);
+                    int index = parseTaskIndex(arguments, tasks.size());
 
-                    Task removed = tasks[index];
-
-                    for (int i = index; i < taskCount - 1; i++) {
-                        tasks[i] = tasks[i + 1];
-                    }
-
-                    tasks[taskCount - 1] = null;
-                    taskCount--;
+                    Task removed = tasks.remove(index);
 
                     System.out.println("Task removed:");
                     System.out.println("  " + removed);
-                    printRegistryCount(taskCount);
-
+                    printRegistryCount(tasks.size());
                     continue;
-                }                
-
-                boolean isAddCommand = command.equals("todo") || command.equals("deadline")
-                        || command.equals("event");
-
-                if (isAddCommand && taskCount == MAX_TASKS) {
-                    throw new EVException("Registry is full.");
                 }
 
                 if (command.equals("todo")) {
@@ -94,10 +77,10 @@ public class EV {
                         throw new EVException("A todo needs a description.");
                     }
 
-                    tasks[taskCount] = new Todo(arguments);
-                    taskCount++;
+                    Task task = new Todo(arguments);
+                    tasks.add(task);
 
-                    printAdded(tasks[taskCount - 1], taskCount);
+                    printAdded(task, tasks.size());
                     continue;
                 }
 
@@ -108,10 +91,10 @@ public class EV {
                         throw new EVException("A deadline needs a description and a /by time.");
                     }
 
-                    tasks[taskCount] = new Deadline(parts[0], parts[1]);
-                    taskCount++;
+                    Task task = new Deadline(parts[0], parts[1]);
+                    tasks.add(task);
 
-                    printAdded(tasks[taskCount - 1], taskCount);
+                    printAdded(task, tasks.size());
                     continue;
                 }
 
@@ -128,10 +111,10 @@ public class EV {
                         throw new EVException("An event needs a /to time.");
                     }
 
-                    tasks[taskCount] = new Event(fromParts[0], timeParts[0], timeParts[1]);
-                    taskCount++;
+                    Task task = new Event(fromParts[0], timeParts[0], timeParts[1]);
+                    tasks.add(task);
 
-                    printAdded(tasks[taskCount - 1], taskCount);
+                    printAdded(task, tasks.size());
                     continue;
                 }
 
@@ -141,7 +124,6 @@ public class EV {
                 System.out.println(e.getMessage());
             }
         }
-
 
         System.out.println();
         System.out.println("E.V. offline. Until next time, Jonathan.");
@@ -193,5 +175,4 @@ public class EV {
     private static void printRegistryCount(int taskCount) {
         System.out.println("Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks."));
     }
-
 }
