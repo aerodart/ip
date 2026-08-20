@@ -1,4 +1,4 @@
-// Entry point of E.V., a Spiderman: Brand New Day themed chatbot reading and executing user commands for Jonathan Parker?
+/** Entry point of E.V., a Spiderman themed chatbot reading and executing user commands for Jonathan Parker? */
 
 import java.util.Scanner;
 
@@ -63,6 +63,25 @@ public class EV {
                     continue;
                 }
 
+                if (command.equals("delete")) {
+                    int index = parseTaskIndex(arguments, taskCount);
+
+                    Task removed = tasks[index];
+
+                    for (int i = index; i < taskCount - 1; i++) {
+                        tasks[i] = tasks[i + 1];
+                    }
+
+                    tasks[taskCount - 1] = null;
+                    taskCount--;
+
+                    System.out.println("Task removed:");
+                    System.out.println("  " + removed);
+                    printRegistryCount(taskCount);
+
+                    continue;
+                }                
+
                 boolean isAddCommand = command.equals("todo") || command.equals("deadline")
                         || command.equals("event");
 
@@ -116,7 +135,8 @@ public class EV {
                     continue;
                 }
 
-                throw new EVException("I'm sorry Jonathan, but this command seems to be outside my current scope. Try again.");
+                throw new EVException("I'm sorry Jonathan, but this command seems to be outside "
+                        + "my current scope. Try again.");
             } catch (EVException e) {
                 System.out.println(e.getMessage());
             }
@@ -135,22 +155,20 @@ public class EV {
      * @param task the task that was just added
      * @param taskCount the number of tasks now in the registry
      */
-
     private static void printAdded(Task task, int taskCount) {
         System.out.println("Task logged:");
         System.out.println("  " + task);
-        System.out.println("Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks."));
+        printRegistryCount(taskCount);
     }
 
     /**
-     * Converts the argument of a mark or unmark command into a task index
+     * Converts the argument of a mark or unmark command into a task index.
      *
      * @param arguments the text following the command word
      * @param taskCount the number of tasks currently in the registry
-     * @return zero-based index of task or -1 if argument is not a usable task number
+     * @return zero-based index of task
      * @throws EVException if the argument is not a number or is not an existing task number
      */
-
     private static int parseTaskIndex(String arguments, int taskCount) throws EVException {
         int taskNumber;
 
@@ -166,4 +184,14 @@ public class EV {
 
         return taskNumber - 1;
     }
+
+    /**
+     * Prints how many tasks the registry currently holds.
+     *
+     * @param taskCount the number of tasks currently in the registry
+     */
+    private static void printRegistryCount(int taskCount) {
+        System.out.println("Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks."));
+    }
+
 }
