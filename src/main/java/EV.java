@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class EV {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         ArrayList<Task> tasks = new ArrayList<>();
 
         System.out.println("E.V. online.");
@@ -22,14 +21,14 @@ public class EV {
                 }
 
                 String[] words = input.split(" ", 2);
-                String command = words[0];
+                Command command = Command.fromKeyword(words[0]);
                 String arguments = words.length > 1 ? words[1].trim() : "";
 
-                if (command.equals("bye")) {
+                if (command == Command.BYE) {
                     break;
                 }
 
-                if (command.equals("list")) {
+                if (command == Command.LIST) {
                     System.out.println("Current task registry:");
 
                     for (int i = 0; i < tasks.size(); i++) {
@@ -39,7 +38,7 @@ public class EV {
                     continue;
                 }
 
-                if (command.equals("mark")) {
+                if (command == Command.MARK) {
                     int index = parseTaskIndex(arguments, tasks.size());
                     Task task = tasks.get(index);
 
@@ -50,7 +49,7 @@ public class EV {
                     continue;
                 }
 
-                if (command.equals("unmark")) {
+                if (command == Command.UNMARK) {
                     int index = parseTaskIndex(arguments, tasks.size());
                     Task task = tasks.get(index);
 
@@ -61,7 +60,7 @@ public class EV {
                     continue;
                 }
 
-                if (command.equals("delete")) {
+                if (command == Command.DELETE) {
                     int index = parseTaskIndex(arguments, tasks.size());
 
                     Task removed = tasks.remove(index);
@@ -72,7 +71,7 @@ public class EV {
                     continue;
                 }
 
-                if (command.equals("todo")) {
+                if (command == Command.TODO) {
                     if (arguments.isEmpty()) {
                         throw new EVException("A todo needs a description.");
                     }
@@ -84,7 +83,7 @@ public class EV {
                     continue;
                 }
 
-                if (command.equals("deadline")) {
+                if (command == Command.DEADLINE) {
                     String[] parts = arguments.split(" /by ", 2);
 
                     if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
@@ -98,7 +97,7 @@ public class EV {
                     continue;
                 }
 
-                if (command.equals("event")) {
+                if (command == Command.EVENT) {
                     String[] fromParts = arguments.split(" /from ", 2);
 
                     if (fromParts.length < 2 || fromParts[0].isEmpty()) {
@@ -117,9 +116,6 @@ public class EV {
                     printAdded(task, tasks.size());
                     continue;
                 }
-
-                throw new EVException("I'm sorry Jonathan, but this command seems to be outside "
-                        + "my current scope. Try again.");
             } catch (EVException e) {
                 System.out.println(e.getMessage());
             }
