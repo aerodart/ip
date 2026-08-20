@@ -16,13 +16,22 @@ public class EV {
         System.out.println();
 
         while (true) {
-            String input = scanner.nextLine();
+            String input = scanner.nextLine().trim();
 
-            if (input.equals("bye")) {
+            if (input.isEmpty()) {
+                System.out.println("No command entered.");
+                continue;
+            }
+
+            String[] words = input.split(" ", 2);
+            String command = words[0];
+            String arguments = words.length > 1 ? words[1].trim() : "";
+
+            if (command.equals("bye")) {
                 break;
             }
 
-            if (input.equals("list")) {
+            if (command.equals("list")) {
                 System.out.println("Current task registry:");
 
                 for (int i = 0; i < taskCount; i++) {
@@ -32,9 +41,12 @@ public class EV {
                 continue;
             }
 
-            if (input.startsWith("mark ")) {
-                int taskNumber = Integer.parseInt(input.substring(5));
-                int index = taskNumber - 1;
+            if (command.equals("mark")) {
+                int index = parseTaskIndex(arguments, taskCount);
+
+                if (index < 0) {
+                    continue;
+                }
 
                 tasks[index].markAsDone();
 
@@ -44,9 +56,12 @@ public class EV {
                 continue;
             }
 
-            if (input.startsWith("unmark ")) {
-                int taskNumber = Integer.parseInt(input.substring(7));
-                int index = taskNumber - 1;
+            if (command.equals("unmark")) {
+                int index = parseTaskIndex(arguments, taskCount);
+
+                if (index < 0) {
+                    continue;
+                }
 
                 tasks[index].markAsNotDone();
 
@@ -56,19 +71,34 @@ public class EV {
                 continue;
             }
 
-            if (input.startsWith("todo ")) {
-                String description = input.substring("todo ".length());
+            boolean isAddCommand = command.equals("todo") || command.equals("deadline")
+                    || command.equals("event");
 
-                tasks[taskCount] = new Todo(description);
+            if (isAddCommand && taskCount == MAX_TASKS) {
+                System.out.println("Registry is full.");
+                continue;
+            }
+
+            if (command.equals("todo")) {
+                if (arguments.isEmpty()) {
+                    System.out.println("A todo needs a description.");
+                    continue;
+                }
+
+                tasks[taskCount] = new Todo(arguments);
                 taskCount++;
 
                 printAdded(tasks[taskCount - 1], taskCount);
                 continue;
             }
 
-            if (input.startsWith("deadline ")) {
-                String details = input.substring("deadline ".length());
-                String[] parts = details.split(" /by ", 2);
+            if (command.equals("deadline")) {
+                String[] parts = arguments.split(" /by ", 2);
+
+                if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
+                    System.out.println("A deadline needs a description and a /by time.");
+                    continue;
+                }
 
                 tasks[taskCount] = new Deadline(parts[0], parts[1]);
                 taskCount++;
@@ -77,10 +107,20 @@ public class EV {
                 continue;
             }
 
-            if (input.startsWith("event ")) {
-                String details = input.substring("event ".length());
-                String[] fromParts = details.split(" /from ", 2);
+            if (command.equals("event")) {
+                String[] fromParts = arguments.split(" /from ", 2);
+
+                if (fromParts.length < 2 || fromParts[0].isEmpty()) {
+                    System.out.println("An event needs a description and a /from time.");
+                    continue;
+                }
+
                 String[] timeParts = fromParts[1].split(" /to ", 2);
+
+                if (timeParts.length < 2 || timeParts[0].isEmpty() || timeParts[1].isEmpty()) {
+                    System.out.println("An event needs a /to time.");
+                    continue;
+                }
 
                 tasks[taskCount] = new Event(fromParts[0], timeParts[0], timeParts[1]);
                 taskCount++;
@@ -89,7 +129,7 @@ public class EV {
                 continue;
             }
 
-            System.out.println("Command not recognised.");
+            System.out.println("I'm sorry Jonathan, but this command seems to be outside my current scope. Try again.");
         }
 
         System.out.println();
@@ -109,5 +149,31 @@ public class EV {
         System.out.println("Task logged:");
         System.out.println("  " + task);
         System.out.println("Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks."));
+    }
+
+    /**
+     * Converts the argument of a mark or unmark command into a task index
+     *
+     * @param arguments the text following the command word
+     * @param taskCount the number of tasks currently in the registry
+     * @return zero-based index of task or -1 if argument is not a usable task number
+     */
+
+    private static int parseTaskIndex(String arguments, int taskCount) {
+        int taskNumber;
+
+        try {
+            taskNumber = Integer.parseInt(arguments);
+        } catch (NumberFormatException e) {
+            System.out.println("Task number must be a number.");
+            return -1;
+        }
+
+        if (taskNumber < 1 || taskNumber > taskCount) {
+            System.out.println("No task with that number.");
+            return -1;
+        }
+
+        return taskNumber - 1;
     }
 }
