@@ -18,119 +18,110 @@ public class EV {
         while (true) {
             String input = scanner.nextLine().trim();
 
-            if (input.isEmpty()) {
-                System.out.println("No command entered.");
-                continue;
-            }
-
-            String[] words = input.split(" ", 2);
-            String command = words[0];
-            String arguments = words.length > 1 ? words[1].trim() : "";
-
-            if (command.equals("bye")) {
-                break;
-            }
-
-            if (command.equals("list")) {
-                System.out.println("Current task registry:");
-
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println((i + 1) + "." + tasks[i]);
+            try {
+                if (input.isEmpty()) {
+                    throw new EVException("No command entered.");
                 }
 
-                continue;
-            }
+                String[] words = input.split(" ", 2);
+                String command = words[0];
+                String arguments = words.length > 1 ? words[1].trim() : "";
 
-            if (command.equals("mark")) {
-                int index = parseTaskIndex(arguments, taskCount);
+                if (command.equals("bye")) {
+                    break;
+                }
 
-                if (index < 0) {
+                if (command.equals("list")) {
+                    System.out.println("Current task registry:");
+
+                    for (int i = 0; i < taskCount; i++) {
+                        System.out.println((i + 1) + "." + tasks[i]);
+                    }
+
                     continue;
                 }
 
-                tasks[index].markAsDone();
+                if (command.equals("mark")) {
+                    int index = parseTaskIndex(arguments, taskCount);
 
-                System.out.println("Task completed.");
-                System.out.println(tasks[index]);
+                    tasks[index].markAsDone();
 
-                continue;
-            }
+                    System.out.println("Task completed.");
+                    System.out.println(tasks[index]);
 
-            if (command.equals("unmark")) {
-                int index = parseTaskIndex(arguments, taskCount);
-
-                if (index < 0) {
                     continue;
                 }
 
-                tasks[index].markAsNotDone();
+                if (command.equals("unmark")) {
+                    int index = parseTaskIndex(arguments, taskCount);
 
-                System.out.println("Task reopened.");
-                System.out.println(tasks[index]);
+                    tasks[index].markAsNotDone();
 
-                continue;
-            }
+                    System.out.println("Task reopened.");
+                    System.out.println(tasks[index]);
 
-            boolean isAddCommand = command.equals("todo") || command.equals("deadline")
-                    || command.equals("event");
-
-            if (isAddCommand && taskCount == MAX_TASKS) {
-                System.out.println("Registry is full.");
-                continue;
-            }
-
-            if (command.equals("todo")) {
-                if (arguments.isEmpty()) {
-                    System.out.println("A todo needs a description.");
                     continue;
                 }
 
-                tasks[taskCount] = new Todo(arguments);
-                taskCount++;
+                boolean isAddCommand = command.equals("todo") || command.equals("deadline")
+                        || command.equals("event");
 
-                printAdded(tasks[taskCount - 1], taskCount);
-                continue;
-            }
+                if (isAddCommand && taskCount == MAX_TASKS) {
+                    throw new EVException("Registry is full.");
+                }
 
-            if (command.equals("deadline")) {
-                String[] parts = arguments.split(" /by ", 2);
+                if (command.equals("todo")) {
+                    if (arguments.isEmpty()) {
+                        throw new EVException("A todo needs a description.");
+                    }
 
-                if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
-                    System.out.println("A deadline needs a description and a /by time.");
+                    tasks[taskCount] = new Todo(arguments);
+                    taskCount++;
+
+                    printAdded(tasks[taskCount - 1], taskCount);
                     continue;
                 }
 
-                tasks[taskCount] = new Deadline(parts[0], parts[1]);
-                taskCount++;
+                if (command.equals("deadline")) {
+                    String[] parts = arguments.split(" /by ", 2);
 
-                printAdded(tasks[taskCount - 1], taskCount);
-                continue;
-            }
+                    if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
+                        throw new EVException("A deadline needs a description and a /by time.");
+                    }
 
-            if (command.equals("event")) {
-                String[] fromParts = arguments.split(" /from ", 2);
+                    tasks[taskCount] = new Deadline(parts[0], parts[1]);
+                    taskCount++;
 
-                if (fromParts.length < 2 || fromParts[0].isEmpty()) {
-                    System.out.println("An event needs a description and a /from time.");
+                    printAdded(tasks[taskCount - 1], taskCount);
                     continue;
                 }
 
-                String[] timeParts = fromParts[1].split(" /to ", 2);
+                if (command.equals("event")) {
+                    String[] fromParts = arguments.split(" /from ", 2);
 
-                if (timeParts.length < 2 || timeParts[0].isEmpty() || timeParts[1].isEmpty()) {
-                    System.out.println("An event needs a /to time.");
+                    if (fromParts.length < 2 || fromParts[0].isEmpty()) {
+                        throw new EVException("An event needs a description and a /from time.");
+                    }
+
+                    String[] timeParts = fromParts[1].split(" /to ", 2);
+
+                    if (timeParts.length < 2 || timeParts[0].isEmpty() || timeParts[1].isEmpty()) {
+                        throw new EVException("An event needs a /to time.");
+                    }
+
+                    tasks[taskCount] = new Event(fromParts[0], timeParts[0], timeParts[1]);
+                    taskCount++;
+
+                    printAdded(tasks[taskCount - 1], taskCount);
                     continue;
                 }
 
-                tasks[taskCount] = new Event(fromParts[0], timeParts[0], timeParts[1]);
-                taskCount++;
-
-                printAdded(tasks[taskCount - 1], taskCount);
-                continue;
+                throw new EVException("I'm sorry Jonathan, but this command seems to be outside my current scope. Try again.");
+            } catch (EVException e) {
+                System.out.println(e.getMessage());
             }
-
-            System.out.println("I'm sorry Jonathan, but this command seems to be outside my current scope. Try again.");
         }
+
 
         System.out.println();
         System.out.println("E.V. offline. Until next time, Jonathan.");
@@ -157,21 +148,20 @@ public class EV {
      * @param arguments the text following the command word
      * @param taskCount the number of tasks currently in the registry
      * @return zero-based index of task or -1 if argument is not a usable task number
+     * @throws EVException if the argument is not a number or is not an existing task number
      */
 
-    private static int parseTaskIndex(String arguments, int taskCount) {
+    private static int parseTaskIndex(String arguments, int taskCount) throws EVException {
         int taskNumber;
 
         try {
             taskNumber = Integer.parseInt(arguments);
         } catch (NumberFormatException e) {
-            System.out.println("Task number must be a number.");
-            return -1;
+            throw new EVException("Task number must be a number.");
         }
 
         if (taskNumber < 1 || taskNumber > taskCount) {
-            System.out.println("No task with that number.");
-            return -1;
+            throw new EVException("No task with that number.");
         }
 
         return taskNumber - 1;
