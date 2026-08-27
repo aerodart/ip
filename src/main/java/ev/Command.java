@@ -26,7 +26,7 @@ public enum Command {
      * @return the matching command
      * @throws EvException if no command uses that keyword
      */
-    public static Command fromKeyword(String keyword) throws EvException {
+    public static Command parseKeyword(String keyword) throws EvException {
         for (Command command : values()) {
             if (command.keyword.equals(keyword)) {
                 return command;

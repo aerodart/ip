@@ -38,7 +38,7 @@ public class EV {
                 }
 
                 String[] words = input.split(" ", 2);
-                Command command = Command.fromKeyword(words[0]);
+                Command command = Command.parseKeyword(words[0]);
                 String arguments = words.length > 1 ? words[1].trim() : "";
 
                 if (command == Command.BYE) {
