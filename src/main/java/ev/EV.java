@@ -11,6 +11,15 @@ import java.util.Scanner;
  * Entry point of E.V., a Spiderman-themed chatbot that reads and executes user commands.
  */
 public class EV {
+    /** Hides the implicit public constructor; E.V. is never instantiated. */
+    private EV() {
+    }
+
+    /**
+     * Runs the E.V. command loop, reading user input until the bye command is given.
+     *
+     * @param args command line arguments; not used
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();

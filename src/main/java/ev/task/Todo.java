@@ -1,9 +1,14 @@
+package ev.task;
+
 /**
  * Represents a task with no date or time attached to it.
  */
-package ev.task;
-
 public class Todo extends Task {
+    /**
+     * Constructs a todo with the given description.
+     *
+     * @param description the description of the task
+     */
     public Todo(String description) {
         super(description);
     }

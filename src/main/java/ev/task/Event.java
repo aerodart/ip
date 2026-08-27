@@ -1,12 +1,19 @@
+package ev.task;
+
 /**
  * Represents a task that runs from one date or time to another.
  */
-package ev.task;
-
 public class Event extends Task {
     protected String from;
     protected String to;
 
+    /**
+     * Constructs an event with the given description and time range.
+     *
+     * @param description the description of the event
+     * @param from the date or time the event starts
+     * @param to the date or time the event ends
+     */
     public Event(String description, String from, String to) {
         super(description);
         this.from = from;
