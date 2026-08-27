@@ -7,7 +7,9 @@ import ev.task.Todo;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/** Entry point of E.V., a Spiderman themed chatbot reading and executing user commands for Jonathan Parker? */
+/**
+ * Entry point of E.V., a Spiderman-themed chatbot that reads and executes user commands.
+ */
 public class EV {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

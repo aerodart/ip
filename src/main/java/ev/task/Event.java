@@ -1,5 +1,6 @@
-// This represents a task running from one date/time to another
-
+/**
+ * Represents a task that runs from one date or time to another.
+ */
 package ev.task;
 
 public class Event extends Task {

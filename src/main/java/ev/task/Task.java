@@ -1,5 +1,6 @@
-// Represents a task in E.V.'s registry with description and done status included
-
+/**
+ * Represents a task in E.V.'s registry, holding a description and a done status.
+ */
 package ev.task;
 
 public class Task {
