@@ -1,0 +1,28 @@
+E.V. online.
+Good evening, Jonathan.
+Systems are operational. What can I do for you?
+
+Task logged:
+  [T][ ] borrow book
+Registry holds 1 task.
+Task logged:
+  [D][ ] return book (by: Sunday)
+Registry holds 2 tasks.
+Task logged:
+  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+Registry holds 3 tasks.
+Current task registry:
+1.[T][ ] borrow book
+2.[D][ ] return book (by: Sunday)
+3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+Task completed.
+[D][X] return book (by: Sunday)
+Current task registry:
+1.[T][ ] borrow book
+2.[D][X] return book (by: Sunday)
+3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+Task reopened.
+[D][ ] return book (by: Sunday)
+I'm sorry Jonathan, but this command seems to be outside my current scope. Try again.
+
+E.V. offline. Until next time, Jonathan.

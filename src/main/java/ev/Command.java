@@ -22,16 +22,16 @@ public enum Command {
      *
      * @param keyword the first word of the user's input
      * @return the matching command
-     * @throws EVException if no command uses that keyword
+     * @throws EvException if no command uses that keyword
      */
-    public static Command fromKeyword(String keyword) throws EVException {
+    public static Command fromKeyword(String keyword) throws EvException {
         for (Command command : values()) {
             if (command.keyword.equals(keyword)) {
                 return command;
             }
         }
 
-        throw new EVException("I'm sorry Jonathan, but this command seems to be outside "
+        throw new EvException("I'm sorry Jonathan, but this command seems to be outside "
                 + "my current scope. Try again.");
     }
 }

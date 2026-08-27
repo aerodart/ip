@@ -23,7 +23,7 @@ public class EV {
 
             try {
                 if (input.isEmpty()) {
-                    throw new EVException("No command entered.");
+                    throw new EvException("No command entered.");
                 }
 
                 String[] words = input.split(" ", 2);
@@ -79,7 +79,7 @@ public class EV {
 
                 if (command == Command.TODO) {
                     if (arguments.isEmpty()) {
-                        throw new EVException("A todo needs a description.");
+                        throw new EvException("A todo needs a description.");
                     }
 
                     Task task = new Todo(arguments);
@@ -93,7 +93,7 @@ public class EV {
                     String[] parts = arguments.split(" /by ", 2);
 
                     if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
-                        throw new EVException("A deadline needs a description and a /by time.");
+                        throw new EvException("A deadline needs a description and a /by time.");
                     }
 
                     Task task = new Deadline(parts[0], parts[1]);
@@ -107,13 +107,13 @@ public class EV {
                     String[] fromParts = arguments.split(" /from ", 2);
 
                     if (fromParts.length < 2 || fromParts[0].isEmpty()) {
-                        throw new EVException("An event needs a description and a /from time.");
+                        throw new EvException("An event needs a description and a /from time.");
                     }
 
                     String[] timeParts = fromParts[1].split(" /to ", 2);
 
                     if (timeParts.length < 2 || timeParts[0].isEmpty() || timeParts[1].isEmpty()) {
-                        throw new EVException("An event needs a /to time.");
+                        throw new EvException("An event needs a /to time.");
                     }
 
                     Task task = new Event(fromParts[0], timeParts[0], timeParts[1]);
@@ -122,7 +122,7 @@ public class EV {
                     printAdded(task, tasks.size());
                     continue;
                 }
-            } catch (EVException e) {
+            } catch (EvException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -151,19 +151,19 @@ public class EV {
      * @param arguments the text following the command word
      * @param taskCount the number of tasks currently in the registry
      * @return zero-based index of task
-     * @throws EVException if the argument is not a number or is not an existing task number
+     * @throws EvException if the argument is not a number or is not an existing task number
      */
-    private static int parseTaskIndex(String arguments, int taskCount) throws EVException {
+    private static int parseTaskIndex(String arguments, int taskCount) throws EvException {
         int taskNumber;
 
         try {
             taskNumber = Integer.parseInt(arguments);
         } catch (NumberFormatException e) {
-            throw new EVException("Task number must be a number.");
+            throw new EvException("Task number must be a number.");
         }
 
         if (taskNumber < 1 || taskNumber > taskCount) {
-            throw new EVException("No task with that number.");
+            throw new EvException("No task with that number.");
         }
 
         return taskNumber - 1;

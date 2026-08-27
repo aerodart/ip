@@ -21,3 +21,6 @@ testcases.txt
 
 # Compiled class files
 *.class
+/actual.txt
+
+/actual.txt
