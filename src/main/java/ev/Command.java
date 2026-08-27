@@ -1,3 +1,5 @@
+package ev;
+
 /** E.V.'s understood commands paired with the keyword the user types. */
 public enum Command {
     BYE("bye"),

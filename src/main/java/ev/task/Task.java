@@ -1,5 +1,6 @@
 // Represents a task in E.V.'s registry with description and done status included
 
+package ev.task;
 
 public class Task {
     protected String description;

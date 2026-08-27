@@ -1,5 +1,7 @@
 // This represents a task running from one date/time to another
 
+package ev.task;
+
 public class Event extends Task {
     protected String from;
     protected String to;
