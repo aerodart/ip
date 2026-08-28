@@ -10,7 +10,7 @@ public class Task {
     /**
      * Constructs a task with the given description, initially not done.
      *
-     * @param description the description of the task
+     * @param description the description of the task.
      */
     public Task(String description) {
         this.description = description;
@@ -20,7 +20,7 @@ public class Task {
     /**
      * Returns the icon shown for this task's done status.
      *
-     * @return "X" if the task is done, a blank otherwise
+     * @return "X" if the task is done, a blank otherwise.
      */
     public String getStatusIcon() {
         return isDone ? "X" : " ";

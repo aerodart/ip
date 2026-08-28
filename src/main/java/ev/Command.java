@@ -22,9 +22,9 @@ public enum Command {
     /**
      * Returns the command whose keyword matches the given word.
      *
-     * @param keyword the first word of the user's input
-     * @return the matching command
-     * @throws EvException if no command uses that keyword
+     * @param keyword the first word of the user's input.
+     * @return the matching command.
+     * @throws EvException if no command uses that keyword.
      */
     public static Command parseKeyword(String keyword) throws EvException {
         for (Command command : values()) {

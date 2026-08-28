@@ -19,7 +19,7 @@ public class TaskList {
     /**
      * Adds a task to the registry.
      *
-     * @param task the task to add
+     * @param task the task to add.
      */
     public void add(Task task) {
         tasks.add(task);
@@ -28,8 +28,8 @@ public class TaskList {
     /**
      * Removes the task at the given index and returns it.
      *
-     * @param index zero-based index of the task to remove
-     * @return the task that was removed
+     * @param index zero-based index of the task to remove.
+     * @return the task that was removed.
      */
     public Task remove(int index) {
         return tasks.remove(index);
@@ -38,8 +38,8 @@ public class TaskList {
     /**
      * Returns the task at the given index.
      *
-     * @param index zero-based index of the task
-     * @return the task stored at that index
+     * @param index zero-based index of the task.
+     * @return the task stored at that index.
      */
     public Task get(int index) {
         return tasks.get(index);
@@ -48,7 +48,7 @@ public class TaskList {
     /**
      * Returns how many tasks the registry holds.
      *
-     * @return the number of tasks
+     * @return the number of tasks.
      */
     public int size() {
         return tasks.size();

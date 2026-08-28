@@ -20,7 +20,7 @@ public class Ui {
     /**
      * Returns the next line of user input with surrounding whitespace removed.
      *
-     * @return the trimmed command entered by the user
+     * @return the trimmed command entered by the user.
      */
     public String readCommand() {
         return scanner.nextLine().trim();
@@ -47,7 +47,7 @@ public class Ui {
     /**
      * Prints every task currently in the registry, numbered from one.
      *
-     * @param tasks the tasks to list
+     * @param tasks the tasks to list.
      */
     public void showList(TaskList tasks) {
         System.out.println("Current task registry:");
@@ -60,8 +60,8 @@ public class Ui {
     /**
      * Prints the confirmation shown after a task is added to the registry.
      *
-     * @param task the task that was just added
-     * @param taskCount the number of tasks now in the registry
+     * @param task the task that was just added.
+     * @param taskCount the number of tasks now in the registry.
      */
     public void showAdded(Task task, int taskCount) {
         System.out.println("Task logged:");
@@ -72,8 +72,8 @@ public class Ui {
     /**
      * Prints the confirmation shown after a task is removed from the registry.
      *
-     * @param task the task that was just removed
-     * @param taskCount the number of tasks now in the registry
+     * @param task the task that was just removed.
+     * @param taskCount the number of tasks now in the registry.
      */
     public void showRemoved(Task task, int taskCount) {
         System.out.println("Task removed:");
@@ -84,7 +84,7 @@ public class Ui {
     /**
      * Prints the confirmation shown after a task is marked done.
      *
-     * @param task the task that was marked done
+     * @param task the task that was marked done.
      */
     public void showMarked(Task task) {
         System.out.println("Task completed.");
@@ -94,7 +94,7 @@ public class Ui {
     /**
      * Prints the confirmation shown after a task is marked not done.
      *
-     * @param task the task that was reopened
+     * @param task the task that was reopened.
      */
     public void showUnmarked(Task task) {
         System.out.println("Task reopened.");
@@ -104,7 +104,7 @@ public class Ui {
     /**
      * Prints how many tasks the registry currently holds.
      *
-     * @param taskCount the number of tasks currently in the registry
+     * @param taskCount the number of tasks currently in the registry.
      */
     public void showRegistryCount(int taskCount) {
         System.out.println("Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks."));
@@ -113,7 +113,7 @@ public class Ui {
     /**
      * Prints an error message to the user.
      *
-     * @param message the message describing what went wrong
+     * @param message the message describing what went wrong.
      */
     public void showError(String message) {
         System.out.println(message);

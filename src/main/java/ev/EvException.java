@@ -8,7 +8,7 @@ public class EvException extends Exception {
     /**
      * Constructs an exception carrying the given user-facing error message.
      *
-     * @param message the message shown to the user
+     * @param message the message shown to the user.
      */
     public EvException(String message) {
         super(message);

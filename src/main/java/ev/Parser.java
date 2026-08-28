@@ -16,9 +16,9 @@ public class Parser {
     /**
      * Returns the command named by the first word of the given input.
      *
-     * @param input the full line entered by the user
-     * @return the command matching the first word
-     * @throws EvException if the input is empty or names no known command
+     * @param input the full line entered by the user.
+     * @return the command matching the first word.
+     * @throws EvException if the input is empty or names no known command.
      */
     public static Command parseCommand(String input) throws EvException {
         if (input.isEmpty()) {
@@ -31,8 +31,8 @@ public class Parser {
     /**
      * Returns the text following the command word, or an empty string if there is none.
      *
-     * @param input the full line entered by the user
-     * @return the trimmed argument text
+     * @param input the full line entered by the user.
+     * @return the trimmed argument text.
      */
     public static String parseArguments(String input) {
         String[] words = input.split(" ", 2);
@@ -42,10 +42,10 @@ public class Parser {
     /**
      * Converts the argument of a mark, unmark or delete command into a task index.
      *
-     * @param arguments the text following the command word
-     * @param taskCount the number of tasks currently in the registry
-     * @return zero-based index of the task
-     * @throws EvException if the argument is not a number or is not an existing task number
+     * @param arguments the text following the command word.
+     * @param taskCount the number of tasks currently in the registry.
+     * @return zero-based index of the task.
+     * @throws EvException if the argument is not a number or is not an existing task number.
      */
     public static int parseTaskIndex(String arguments, int taskCount) throws EvException {
         int taskNumber;
@@ -66,9 +66,9 @@ public class Parser {
     /**
      * Returns a todo built from the given argument text.
      *
-     * @param arguments the text following the todo keyword
-     * @return the todo described by the arguments
-     * @throws EvException if no description is given
+     * @param arguments the text following the todo keyword.
+     * @return the todo described by the arguments.
+     * @throws EvException if no description is given.
      */
     public static Task parseTodo(String arguments) throws EvException {
         if (arguments.isEmpty()) {
@@ -81,9 +81,9 @@ public class Parser {
     /**
      * Returns a deadline built from the given argument text.
      *
-     * @param arguments the text following the deadline keyword
-     * @return the deadline described by the arguments
-     * @throws EvException if the description or the /by time is missing
+     * @param arguments the text following the deadline keyword.
+     * @return the deadline described by the arguments.
+     * @throws EvException if the description or the /by time is missing.
      */
     public static Task parseDeadline(String arguments) throws EvException {
         String[] parts = arguments.split(" /by ", 2);
@@ -98,9 +98,9 @@ public class Parser {
     /**
      * Returns an event built from the given argument text.
      *
-     * @param arguments the text following the event keyword
-     * @return the event described by the arguments
-     * @throws EvException if the description, the /from time or the /to time is missing
+     * @param arguments the text following the event keyword.
+     * @return the event described by the arguments.
+     * @throws EvException if the description, the /from time or the /to time is missing.
      */
     public static Task parseEvent(String arguments) throws EvException {
         String[] fromParts = arguments.split(" /from ", 2);
