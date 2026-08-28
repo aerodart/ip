@@ -62,4 +62,22 @@ public class TaskList {
     public int size() {
         return tasks.size();
     }
+
+    /**
+     * Returns the tasks whose descriptions contain the given text.
+     *
+     * @param keyword the text to search for.
+     * @return a registry holding only the matching tasks.
+     */
+    public TaskList find(String keyword) {
+        ArrayList<Task> matches = new ArrayList<>();
+
+        for (Task task : tasks) {
+            if (task.toString().contains(keyword)) {
+                matches.add(task);
+            }
+        }
+
+        return new TaskList(matches);
+    }
 }

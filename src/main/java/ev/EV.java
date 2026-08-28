@@ -92,6 +92,9 @@ public class EV {
             case EVENT:
                 addTask(Parser.parseEvent(arguments), tasks, ui);
                 break;
+            case FIND:
+                ui.showFound(tasks.find(arguments));
+                break;            
             default:
                 break;
         }

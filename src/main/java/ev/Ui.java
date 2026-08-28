@@ -120,6 +120,19 @@ public class Ui {
     }
 
     /**
+     * Prints the tasks matching a search, numbered from one.
+     *
+     * @param tasks the matching tasks.
+     */
+    public void showFound(TaskList tasks) {
+        System.out.println("Matching entries in the registry:");
+
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
      * Closes the input source.
      */
     public void close() {
