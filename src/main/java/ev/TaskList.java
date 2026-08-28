@@ -2,6 +2,7 @@ package ev;
 
 import ev.task.Task;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Represents the registry of tasks E.V. is currently tracking.
@@ -41,6 +42,8 @@ public class TaskList {
      * @return the task that was removed.
      */
     public Task remove(int index) {
+        assert index >= 0 && index < tasks.size() : "Task index must be within the registry.";
+
         return tasks.remove(index);
     }
 
@@ -51,6 +54,8 @@ public class TaskList {
      * @return the task stored at that index.
      */
     public Task get(int index) {
+        assert index >= 0 && index < tasks.size() : "Task index must be within the registry.";
+
         return tasks.get(index);
     }
 
@@ -70,14 +75,8 @@ public class TaskList {
      * @return a registry holding only the matching tasks.
      */
     public TaskList find(String keyword) {
-        ArrayList<Task> matches = new ArrayList<>();
-
-        for (Task task : tasks) {
-            if (task.toString().contains(keyword)) {
-                matches.add(task);
-            }
-        }
-
-        return new TaskList(matches);
+        return new TaskList(tasks.stream()
+                .filter(task -> task.toString().contains(keyword))
+                .collect(Collectors.toCollection(ArrayList::new)));
     }
 }
