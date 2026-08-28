@@ -2,15 +2,16 @@ package ev.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Represents a task that must be done before a given date and time.
  */
 public class Deadline extends Task {
     private static final DateTimeFormatter DISPLAY_FORMAT =
-            DateTimeFormatter.ofPattern("MMM d yyyy, h:mma");
+            DateTimeFormatter.ofPattern("MMM d yyyy, h:mma", Locale.ENGLISH);
     private static final DateTimeFormatter FILE_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm", Locale.ENGLISH);
 
     protected LocalDateTime by;
 

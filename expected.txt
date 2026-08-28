@@ -6,23 +6,23 @@ Task logged:
   [T][ ] borrow book
 Registry holds 1 task.
 Task logged:
-  [D][ ] return book (by: Sept 18 2026, 6:00pm)
+  [D][ ] return book (by: Sep 18 2026, 6:00PM)
 Registry holds 2 tasks.
 Task logged:
-  [E][ ] project meeting (from: Sept 20 2026, 2:00pm to: Sept 20 2026, 4:00pm)
+  [E][ ] project meeting (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
 Registry holds 3 tasks.
 Current task registry:
 1.[T][ ] borrow book
-2.[D][ ] return book (by: Sept 18 2026, 6:00pm)
-3.[E][ ] project meeting (from: Sept 20 2026, 2:00pm to: Sept 20 2026, 4:00pm)
+2.[D][ ] return book (by: Sep 18 2026, 6:00PM)
+3.[E][ ] project meeting (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
 Task completed.
-[D][X] return book (by: Sept 18 2026, 6:00pm)
+[D][X] return book (by: Sep 18 2026, 6:00PM)
 Current task registry:
 1.[T][ ] borrow book
-2.[D][X] return book (by: Sept 18 2026, 6:00pm)
-3.[E][ ] project meeting (from: Sept 20 2026, 2:00pm to: Sept 20 2026, 4:00pm)
+2.[D][X] return book (by: Sep 18 2026, 6:00PM)
+3.[E][ ] project meeting (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
 Task reopened.
-[D][ ] return book (by: Sept 18 2026, 6:00pm)
+[D][ ] return book (by: Sep 18 2026, 6:00PM)
 Dates must look like 2026-09-18 1800.
 I'm sorry Jonathan, but this command seems to be outside my current scope. Try again.
 

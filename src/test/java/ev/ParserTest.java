@@ -2,7 +2,6 @@ package ev;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,7 +28,7 @@ public class ParserTest {
 
     @Test
     public void parseDeadline_validInput_returnsDeadline() throws EvException {
-        assertEquals("[D][ ] return book (by: Sept 18 2026, 6:00pm)",
+        assertEquals("[D][ ] return book (by: Sep 18 2026, 6:00PM)",
                 Parser.parseDeadline("return book /by 2026-09-18 1800").toString());
     }
 

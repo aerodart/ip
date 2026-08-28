@@ -7,6 +7,7 @@ import ev.task.Todo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 /**
  * Parses raw user input into the commands and tasks E.V. works with.
@@ -133,7 +134,8 @@ public class Parser {
      */
     public static LocalDateTime parseDateTime(String text) throws EvException {
         try {
-            return LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            return LocalDateTime.parse(text,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm", Locale.ENGLISH));
         } catch (DateTimeParseException e) {
             throw new EvException("Dates must look like 2026-09-18 1800.");
         }
