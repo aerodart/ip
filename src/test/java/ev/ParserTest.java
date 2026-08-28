@@ -29,8 +29,8 @@ public class ParserTest {
 
     @Test
     public void parseDeadline_validInput_returnsDeadline() throws EvException {
-        assertEquals("[D][ ] return book (by: Sunday)",
-                Parser.parseDeadline("return book /by Sunday").toString());
+        assertEquals("[D][ ] return book (by: Sept 18 2026, 6:00pm)",
+                Parser.parseDeadline("return book /by 2026-09-18 1800").toString());
     }
 
     @Test
@@ -38,4 +38,12 @@ public class ParserTest {
         EvException thrown = assertThrows(EvException.class, () -> Parser.parseDeadline("return book"));
         assertEquals("A deadline needs a description and a /by time.", thrown.getMessage());
     }
+
+    @Test
+    public void parseDeadline_invalidDate_throwsEvException() {
+        EvException thrown = assertThrows(EvException.class,
+                () -> Parser.parseDeadline("return book /by Sunday"));
+        assertEquals("Dates must look like 2026-09-18 1800.", thrown.getMessage());
+    }
+
 }

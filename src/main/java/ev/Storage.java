@@ -101,13 +101,13 @@ public class Storage {
                 if (parts.length < 4) {
                     throw new EvException("My memory banks are corrupted.");
                 }
-                task = new Deadline(parts[2], parts[3]);
+                task = new Deadline(parts[2], Parser.parseDateTime(parts[3]));
                 break;
             case "E":
                 if (parts.length < 5) {
                     throw new EvException("My memory banks are corrupted.");
                 }
-                task = new Event(parts[2], parts[3], parts[4]);
+                task = new Event(parts[2], Parser.parseDateTime(parts[3]), Parser.parseDateTime(parts[4]));
                 break;
             default:
                 throw new EvException("My memory banks are corrupted.");

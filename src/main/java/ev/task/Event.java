@@ -1,20 +1,28 @@
 package ev.task;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
- * Represents a task that runs from one date or time to another.
+ * Represents a task that runs from one date and time to another.
  */
 public class Event extends Task {
-    protected String from;
-    protected String to;
+    private static final DateTimeFormatter DISPLAY_FORMAT =
+            DateTimeFormatter.ofPattern("MMM d yyyy, h:mma");
+    private static final DateTimeFormatter FILE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+
+    protected LocalDateTime from;
+    protected LocalDateTime to;
 
     /**
      * Constructs an event with the given description and time range.
      *
      * @param description the description of the event.
-     * @param from the date or time the event starts.
-     * @param to the date or time the event ends.
+     * @param from the date and time the event starts.
+     * @param to the date and time the event ends.
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
         this.to = to;
@@ -22,11 +30,13 @@ public class Event extends Task {
 
     @Override
     public String toFileString() {
-        return "E | " + super.toFileString() + " | " + from + " | " + to;
+        return "E | " + super.toFileString() + " | " + from.format(FILE_FORMAT)
+                + " | " + to.format(FILE_FORMAT);
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
+        return "[E]" + super.toString() + " (from: " + from.format(DISPLAY_FORMAT)
+                + " to: " + to.format(DISPLAY_FORMAT) + ")";
     }
 }

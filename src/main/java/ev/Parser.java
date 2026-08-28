@@ -4,6 +4,9 @@ import ev.task.Deadline;
 import ev.task.Event;
 import ev.task.Task;
 import ev.task.Todo;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Parses raw user input into the commands and tasks E.V. works with.
@@ -92,7 +95,7 @@ public class Parser {
             throw new EvException("A deadline needs a description and a /by time.");
         }
 
-        return new Deadline(parts[0], parts[1]);
+        return new Deadline(parts[0], parseDateTime(parts[1]));
     }
 
     /**
@@ -115,6 +118,21 @@ public class Parser {
             throw new EvException("An event needs a /to time.");
         }
 
-        return new Event(fromParts[0], timeParts[0], timeParts[1]);
+        return new Event(fromParts[0], parseDateTime(timeParts[0]), parseDateTime(timeParts[1]));
+    }
+
+    /**
+     * Returns the date and time described by text in yyyy-MM-dd HHmm form.
+     *
+     * @param text the date and time as the user typed it.
+     * @return the parsed date and time.
+     * @throws EvException if the text is not in the expected format.
+     */
+    public static LocalDateTime parseDateTime(String text) throws EvException {
+        try {
+            return LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        } catch (DateTimeParseException e) {
+            throw new EvException("Dates must look like 2026-09-18 1800.");
+        }
     }
 }
