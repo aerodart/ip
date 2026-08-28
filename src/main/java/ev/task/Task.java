@@ -27,6 +27,15 @@ public class Task {
     }
 
     /**
+     * Returns this task encoded for storage in the data file.
+     *
+     * @return the done flag and description, separated by a pipe.
+     */
+    public String toFileString() {
+        return (isDone ? "1" : "0") + " | " + description;
+    }
+
+    /**
      * Marks this task as done.
      */
     public void markAsDone() {

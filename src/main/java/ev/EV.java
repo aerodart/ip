@@ -17,10 +17,18 @@ public class EV {
      */
     public static void main(String[] args) {
         Ui ui = new Ui();
+        Storage storage = new Storage("data/ev.txt");
         TaskList tasks = new TaskList();
 
         ui.showWelcome();
-        runCommandLoop(ui, tasks);
+
+        try {
+            tasks = new TaskList(storage.load());
+        } catch (EvException e) {
+            ui.showError(e.getMessage());
+        }
+
+        runCommandLoop(ui, tasks, storage);
         ui.showGoodbye();
         ui.close();
     }
@@ -30,8 +38,9 @@ public class EV {
      *
      * @param ui the user interface to read from and write to.
      * @param tasks the registry the commands act on.
+     * @param storage the store to write the registry back to after each command.
      */
-    private static void runCommandLoop(Ui ui, TaskList tasks) {
+    private static void runCommandLoop(Ui ui, TaskList tasks, Storage storage) {
         while (true) {
             String input = ui.readCommand();
 
@@ -43,6 +52,7 @@ public class EV {
                 }
 
                 execute(command, Parser.parseArguments(input), tasks, ui);
+                storage.save(tasks);
             } catch (EvException e) {
                 ui.showError(e.getMessage());
             }

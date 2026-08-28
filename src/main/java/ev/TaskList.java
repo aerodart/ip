@@ -17,6 +17,15 @@ public class TaskList {
     }
 
     /**
+     * Constructs a registry holding the given tasks.
+     *
+     * @param tasks the tasks to start with.
+     */
+    public TaskList(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    /**
      * Adds a task to the registry.
      *
      * @param task the task to add.
