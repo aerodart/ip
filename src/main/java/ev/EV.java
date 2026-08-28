@@ -5,7 +5,6 @@ import ev.task.Event;
 import ev.task.Task;
 import ev.task.Todo;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Entry point of E.V., a Spiderman-themed chatbot that reads and executes user commands.
@@ -21,16 +20,13 @@ public class EV {
      * @param args command line arguments; not used
      */
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Ui ui = new Ui();
         ArrayList<Task> tasks = new ArrayList<>();
 
-        System.out.println("E.V. online.");
-        System.out.println("Good evening, Jonathan.");
-        System.out.println("Systems are operational. What can I do for you?");
-        System.out.println();
+        ui.showWelcome();
 
         while (true) {
-            String input = scanner.nextLine().trim();
+            String input = ui.readCommand();
 
             try {
                 if (input.isEmpty()) {
@@ -46,11 +42,7 @@ public class EV {
                 }
 
                 if (command == Command.LIST) {
-                    System.out.println("Current task registry:");
-
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println((i + 1) + "." + tasks.get(i));
-                    }
+                    ui.showList(tasks);
 
                     continue;
                 }
@@ -61,8 +53,7 @@ public class EV {
 
                     task.markAsDone();
 
-                    System.out.println("Task completed.");
-                    System.out.println(task);
+                    ui.showMarked(task);
                     continue;
                 }
 
@@ -72,8 +63,7 @@ public class EV {
 
                     task.markAsNotDone();
 
-                    System.out.println("Task reopened.");
-                    System.out.println(task);
+                    ui.showUnmarked(task);
                     continue;
                 }
 
@@ -82,9 +72,7 @@ public class EV {
 
                     Task removed = tasks.remove(index);
 
-                    System.out.println("Task removed:");
-                    System.out.println("  " + removed);
-                    printRegistryCount(tasks.size());
+                    ui.showRemoved(removed, tasks.size());
                     continue;
                 }
 
@@ -96,7 +84,7 @@ public class EV {
                     Task task = new Todo(arguments);
                     tasks.add(task);
 
-                    printAdded(task, tasks.size());
+                    ui.showAdded(task, tasks.size());
                     continue;
                 }
 
@@ -110,7 +98,7 @@ public class EV {
                     Task task = new Deadline(parts[0], parts[1]);
                     tasks.add(task);
 
-                    printAdded(task, tasks.size());
+                    ui.showAdded(task, tasks.size());
                     continue;
                 }
 
@@ -130,31 +118,19 @@ public class EV {
                     Task task = new Event(fromParts[0], timeParts[0], timeParts[1]);
                     tasks.add(task);
 
-                    printAdded(task, tasks.size());
+                    ui.showAdded(task, tasks.size());
                     continue;
                 }
             } catch (EvException e) {
-                System.out.println(e.getMessage());
+                ui.showError(e.getMessage());
             }
         }
 
-        System.out.println();
-        System.out.println("E.V. offline. Until next time, Jonathan.");
+        ui.showGoodbye();
 
-        scanner.close();
+        ui.close();
     }
 
-    /**
-     * Prints the confirmation shown after a task is added to the registry.
-     *
-     * @param task the task that was just added
-     * @param taskCount the number of tasks now in the registry
-     */
-    private static void printAdded(Task task, int taskCount) {
-        System.out.println("Task logged:");
-        System.out.println("  " + task);
-        printRegistryCount(taskCount);
-    }
 
     /**
      * Converts the argument of a mark or unmark command into a task index.
@@ -178,14 +154,5 @@ public class EV {
         }
 
         return taskNumber - 1;
-    }
-
-    /**
-     * Prints how many tasks the registry currently holds.
-     *
-     * @param taskCount the number of tasks currently in the registry
-     */
-    private static void printRegistryCount(int taskCount) {
-        System.out.println("Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks."));
     }
 }
