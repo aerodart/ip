@@ -63,7 +63,10 @@ public class Parser {
             throw new EvException("No task with that number.");
         }
 
-        return taskNumber - 1;
+        int index = taskNumber - 1;
+        assert index >= 0 && index < taskCount : "A validated task index must be within the registry.";
+
+        return index;
     }
 
     /**

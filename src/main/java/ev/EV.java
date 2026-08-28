@@ -108,6 +108,8 @@ public class EV {
      * @param ui the user interface used to report the result.
      */
     private static void addTask(Task task, TaskList tasks, Ui ui) {
+        assert task != null : "Parser must return a task or throw; never null.";
+
         tasks.add(task);
         ui.showAdded(task, tasks.size());
     }
