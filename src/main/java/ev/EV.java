@@ -4,7 +4,6 @@ import ev.task.Deadline;
 import ev.task.Event;
 import ev.task.Task;
 import ev.task.Todo;
-import java.util.ArrayList;
 
 /**
  * Entry point of E.V., a Spiderman-themed chatbot that reads and executes user commands.
@@ -21,7 +20,7 @@ public class EV {
      */
     public static void main(String[] args) {
         Ui ui = new Ui();
-        ArrayList<Task> tasks = new ArrayList<>();
+        TaskList tasks = new TaskList();
 
         ui.showWelcome();
 

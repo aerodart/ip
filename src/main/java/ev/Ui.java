@@ -1,7 +1,6 @@
 package ev;
 
 import ev.task.Task;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -50,7 +49,7 @@ public class Ui {
      *
      * @param tasks the tasks to list
      */
-    public void showList(ArrayList<Task> tasks) {
+    public void showList(TaskList tasks) {
         System.out.println("Current task registry:");
 
         for (int i = 0; i < tasks.size(); i++) {
