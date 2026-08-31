@@ -1,5 +1,7 @@
 package ev;
 
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -7,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * Controls the main window of E.V.'s graphical user interface.
@@ -58,5 +61,12 @@ public class MainWindow extends AnchorPane {
         );
 
         userInput.clear();
+
+        if (ev.isExit(input)) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
+
+            delay.setOnFinished(event -> Platform.exit());
+            delay.play();
+        }
     }
 }

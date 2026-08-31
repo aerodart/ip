@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 
 /**
  * Represents a chat bubble pairing a message with the speaker's avatar.
@@ -42,6 +43,8 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(avatar);
+        displayPicture.setClip(new Circle(49.5, 49.5, 49.5));
+
     }
 
     /**

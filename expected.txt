@@ -24,6 +24,9 @@ Current task registry:
 Task reopened.
 [D][ ] return book (by: Sep 18 2026, 6:00PM)
 Dates must look like 2026-09-18 1800.
+Task logged:
+  [D][ ] good date (by: Dec 25 2026, 6:00PM)
+Registry holds 4 tasks.
 I'm sorry Jonathan, but this command seems to be outside my current scope. Try again.
 
 E.V. offline. Until next time, Jonathan.
