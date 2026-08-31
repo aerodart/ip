@@ -1,11 +1,11 @@
 package ev;
 
-import ev.task.Task;
 import java.util.Scanner;
 
+import ev.task.Task;
 
 /**
- * Handles all interaction with the user, reading input and printing E.V.'s responses.
+ * Handles interaction with the user, reading input and building E.V.'s replies.
  */
 public class Ui {
     private final Scanner scanner;
@@ -27,109 +27,107 @@ public class Ui {
     }
 
     /**
-     * Prints E.V.'s startup banner.
+     * Returns E.V.'s startup banner.
+     *
+     * @return the greeting shown when E.V. starts.
      */
-    public void showWelcome() {
-        System.out.println("E.V. online.");
-        System.out.println("Good evening, Jonathan.");
-        System.out.println("Systems are operational. What can I do for you?");
-        System.out.println();
+    public String getWelcome() {
+        return "E.V. online.\n"
+                + "Good evening, Jonathan.\n"
+                + "Systems are operational. What can I do for you?\n";
     }
 
     /**
-     * Prints E.V.'s shutdown message.
+     * Returns E.V.'s shutdown message.
+     *
+     * @return the farewell shown when the user says bye.
      */
-    public void showGoodbye() {
-        System.out.println();
-        System.out.println("E.V. offline. Until next time, Jonathan.");
+    public String getGoodbye() {
+        return "\nE.V. offline. Until next time, Jonathan.";
     }
 
     /**
-     * Prints every task currently in the registry, numbered from one.
+     * Returns every task currently in the registry, numbered from one.
      *
      * @param tasks the tasks to list.
+     * @return the numbered registry listing.
      */
-    public void showList(TaskList tasks) {
-        System.out.println("Current task registry:");
+    public String getList(TaskList tasks) {
+        StringBuilder builder = new StringBuilder("Current task registry:");
 
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
+            builder.append("\n").append(i + 1).append(".").append(tasks.get(i));
         }
+
+        return builder.toString();
     }
 
     /**
-     * Prints the confirmation shown after a task is added to the registry.
+     * Returns the tasks matching a search, numbered from one.
+     *
+     * @param tasks the matching tasks.
+     * @return the numbered listing of matches.
+     */
+    public String getFound(TaskList tasks) {
+        StringBuilder builder = new StringBuilder("Matching entries in the registry:");
+
+        for (int i = 0; i < tasks.size(); i++) {
+            builder.append("\n").append(i + 1).append(".").append(tasks.get(i));
+        }
+
+        return builder.toString();
+    }
+
+    /**
+     * Returns the confirmation shown after a task is added to the registry.
      *
      * @param task the task that was just added.
      * @param taskCount the number of tasks now in the registry.
+     * @return the confirmation message.
      */
-    public void showAdded(Task task, int taskCount) {
-        System.out.println("Task logged:");
-        System.out.println("  " + task);
-        showRegistryCount(taskCount);
+    public String getAdded(Task task, int taskCount) {
+        return "Task logged:\n  " + task + "\n" + getRegistryCount(taskCount);
     }
 
     /**
-     * Prints the confirmation shown after a task is removed from the registry.
+     * Returns the confirmation shown after a task is removed from the registry.
      *
      * @param task the task that was just removed.
      * @param taskCount the number of tasks now in the registry.
+     * @return the confirmation message.
      */
-    public void showRemoved(Task task, int taskCount) {
-        System.out.println("Task removed:");
-        System.out.println("  " + task);
-        showRegistryCount(taskCount);
+    public String getRemoved(Task task, int taskCount) {
+        return "Task removed:\n  " + task + "\n" + getRegistryCount(taskCount);
     }
 
     /**
-     * Prints the confirmation shown after a task is marked done.
+     * Returns the confirmation shown after a task is marked done.
      *
      * @param task the task that was marked done.
+     * @return the confirmation message.
      */
-    public void showMarked(Task task) {
-        System.out.println("Task completed.");
-        System.out.println(task);
+    public String getMarked(Task task) {
+        return "Task completed.\n" + task;
     }
 
     /**
-     * Prints the confirmation shown after a task is marked not done.
+     * Returns the confirmation shown after a task is marked not done.
      *
      * @param task the task that was reopened.
+     * @return the confirmation message.
      */
-    public void showUnmarked(Task task) {
-        System.out.println("Task reopened.");
-        System.out.println(task);
+    public String getUnmarked(Task task) {
+        return "Task reopened.\n" + task;
     }
 
     /**
-     * Prints how many tasks the registry currently holds.
+     * Returns how many tasks the registry currently holds.
      *
      * @param taskCount the number of tasks currently in the registry.
+     * @return the registry count message.
      */
-    public void showRegistryCount(int taskCount) {
-        System.out.println("Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks."));
-    }
-
-    /**
-     * Prints an error message to the user.
-     *
-     * @param message the message describing what went wrong.
-     */
-    public void showError(String message) {
-        System.out.println(message);
-    }
-
-    /**
-     * Prints the tasks matching a search, numbered from one.
-     *
-     * @param tasks the matching tasks.
-     */
-    public void showFound(TaskList tasks) {
-        System.out.println("Matching entries in the registry:");
-
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
-        }
+    public String getRegistryCount(int taskCount) {
+        return "Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks.");
     }
 
     /**

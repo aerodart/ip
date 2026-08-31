@@ -1,0 +1,33 @@
+.root {
+    main-color: rgb(237, 255, 242);
+    -fx-background-color: main-color;
+}
+
+.text-field {
+    -fx-background-color: #d9ffe2;
+    -fx-font: 20px "Arial";
+}
+
+.button {
+    -fx-background-color: springgreen;
+}
+
+.button:hover {
+    -fx-background-color: cyan;
+}
+
+.button:pressed {
+    -fx-background-color: orange;
+}
+
+.button {
+    -fx-background-color: springgreen;
+}
+
+.button:hover {
+    -fx-background-color: cyan;
+}
+
+.button:pressed {
+    -fx-background-color: orange;
+}
