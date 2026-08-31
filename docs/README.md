@@ -3,6 +3,8 @@
 E.V. is a Spiderman-themed command-line assistant that tracks your tasks and
 remembers them between sessions.
 
+![E.V. in action](Ui.png)
+
 ## Adding a todo
 
 Adds a task with no date attached.
