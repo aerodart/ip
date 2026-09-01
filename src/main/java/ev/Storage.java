@@ -1,14 +1,15 @@
 package ev;
 
-import ev.task.Deadline;
-import ev.task.Event;
-import ev.task.Task;
-import ev.task.Todo;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import ev.task.Deadline;
+import ev.task.Event;
+import ev.task.Task;
+import ev.task.Todo;
 
 /**
  * Loads tasks from the data file and saves them back to it.

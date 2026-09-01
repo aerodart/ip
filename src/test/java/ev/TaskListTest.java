@@ -2,8 +2,9 @@ package ev;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ev.task.Todo;
 import org.junit.jupiter.api.Test;
+
+import ev.task.Todo;
 
 /**
  * Contains unit tests for {@link TaskList}.

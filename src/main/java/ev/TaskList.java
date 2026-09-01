@@ -1,8 +1,9 @@
 package ev;
 
-import ev.task.Task;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import ev.task.Task;
 
 /**
  * Represents the registry of tasks E.V. is currently tracking.

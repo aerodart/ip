@@ -2,6 +2,7 @@ package ev;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -40,8 +41,9 @@ public class ParserTest {
 
     @Test
     public void parseDeadline_invalidDate_throwsEvException() {
-        EvException thrown = assertThrows(EvException.class,
-                () -> Parser.parseDeadline("return book /by Sunday"));
+        EvException thrown = assertThrows(
+                EvException.class, () -> Parser.parseDeadline("return book /by Sunday"));
+
         assertEquals("Dates must look like 2026-09-18 1800.", thrown.getMessage());
     }
 
