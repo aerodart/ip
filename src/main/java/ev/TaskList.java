@@ -80,4 +80,20 @@ public class TaskList {
                 .filter(task -> task.toString().contains(keyword))
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
+
+    /**
+     * Returns a registry holding the given tasks.
+     *
+     * @param tasks the tasks to start with.
+     * @return a registry containing exactly those tasks.
+     */
+    public static TaskList of(Task... tasks) {
+        TaskList registry = new TaskList();
+
+        for (Task task : tasks) {
+            registry.add(task);
+        }
+
+        return registry;
+    }
 }

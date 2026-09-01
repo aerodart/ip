@@ -10,13 +10,11 @@ import ev.task.Todo;
  * Contains unit tests for {@link TaskList}.
  */
 public class TaskListTest {
+
     @Test
     public void add_threeTasks_sizeReflectsCount() {
-        TaskList tasks = new TaskList();
-
-        tasks.add(new Todo("borrow book"));
-        tasks.add(new Todo("return book"));
-        tasks.add(new Todo("buy milk"));
+        TaskList tasks = TaskList.of(new Todo("borrow book"),
+                new Todo("return book"), new Todo("buy milk"));
 
         assertEquals(3, tasks.size());
     }
