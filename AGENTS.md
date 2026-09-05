@@ -9,8 +9,9 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Comfortable writing Java and using Git day-to-day. New to software engineering practice specifically. Design patterns, testing discipline, coding standards, and documentation conventions are the parts I'm learning. Explain SE concepts and the reasoning behind them; no need to explain Java syntax.
+* IDE and level of expertise: VS Code, working mostly through the integrated
+  terminal rather than IDE refactoring tools.
 
 # Guidance for interacting with users
 
@@ -36,7 +37,19 @@ Do not commit or push unless explicitly asked.
 
 ## Coding standards
 
-Follow the CS2103T conventions:
+Java code must follow the SE-EDU **basic and intermediate** rules:
+https://se-education.org/guides/conventions/java/intermediate.html
+Captured in full in the `seedu-java-coding-standard` skill. Load it when writing,
+editing or reviewing Java in this repository.
 
-* Java code: https://se-education.org/guides/conventions/java/index.html
-* Commit messages and branch names: https://se-education.org/guides/conventions/git.html
+Commit messages and branch names must follow the SE-EDU git conventions:
+https://se-education.org/guides/conventions/git.html
+Captured in full in the `seedu-git-standard` skill. Load it when drafting a commit
+message or naming a branch.
+
+## Testing
+
+Prioritize JUnit coverage of high-value logic — parsing, state mutation, persistence,
+command dispatch — over trivial getters, println wrappers, and one-line delegations.
+When a change adds or alters that kind of logic, add or update its tests in the same
+commit rather than leaving them stale.
