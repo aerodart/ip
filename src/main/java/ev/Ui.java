@@ -67,6 +67,16 @@ public class Ui {
     }
 
     /**
+     * Returns the sorted tasks, numbered from one.
+     *
+     * @param tasks the tasks to render in order.
+     * @return the numbered sorted listing.
+     */
+    public String getSorted(TaskList tasks) {
+        return formatNumberedList("Registry sorted by description:", tasks);
+    }
+
+    /**
      * Returns the given tasks under a header, numbered from one.
      *
      * @param header the line shown above the tasks.

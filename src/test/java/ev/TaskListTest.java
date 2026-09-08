@@ -78,4 +78,20 @@ public class TaskListTest {
         assertEquals(0, tasks.find("X").size());
     }
 
+    @Test
+    public void sortByDescription_unorderedTasks_returnsAlphabeticalOrder() {
+        TaskList tasks = new TaskList();
+
+        tasks.add(new Todo("write report"));
+        tasks.add(new Todo("borrow book"));
+        tasks.add(new Todo("mail parcel"));
+
+        TaskList sorted = tasks.sortByDescription();
+
+        assertEquals("[T][ ] borrow book", sorted.get(0).toString());
+        assertEquals("[T][ ] mail parcel", sorted.get(1).toString());
+        assertEquals("[T][ ] write report", sorted.get(2).toString());
+        assertEquals("[T][ ] write report", tasks.get(0).toString());
+    }
+
 }

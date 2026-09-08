@@ -135,6 +135,8 @@ public class EV {
                 return addTask(Parser.parseEvent(arguments));
             case FIND:
                 return ui.getFound(tasks.find(arguments));
+            case SORT:
+                return ui.getSorted(tasks.sortByDescription());
             default:
                 throw new EvException("E.V. does not know how to run that command yet.");
         }

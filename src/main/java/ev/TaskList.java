@@ -1,6 +1,7 @@
 package ev;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import ev.task.Task;
@@ -78,6 +79,17 @@ public class TaskList {
     public TaskList find(String keyword) {
         return new TaskList(tasks.stream()
                 .filter(task -> task.getDescription().contains(keyword))
+                .collect(Collectors.toCollection(ArrayList::new)));
+    }
+
+    /**
+     * Returns a registry holding the same tasks ordered by description.
+     *
+     * @return a registry with the tasks sorted alphabetically.
+     */
+    public TaskList sortByDescription() {
+        return new TaskList(tasks.stream()
+                .sorted(Comparator.comparing(Task::getDescription))
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
 
