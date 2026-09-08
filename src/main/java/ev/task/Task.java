@@ -27,6 +27,15 @@ public class Task {
     }
 
     /**
+     * Returns the description this task was created with.
+     *
+     * @return the task description.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
      * Returns this task encoded for storage in the data file.
      *
      * @return the done flag and description, separated by a pipe.

@@ -66,4 +66,16 @@ public class TaskListTest {
 
         assertEquals(2, tasks.size());
     }
+
+    @Test
+    public void find_statusIcon_returnsNoMatches() {
+        TaskList tasks = new TaskList();
+        Todo done = new Todo("borrow book");
+
+        done.markAsDone();
+        tasks.add(done);
+
+        assertEquals(0, tasks.find("X").size());
+    }
+
 }
