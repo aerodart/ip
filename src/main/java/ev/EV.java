@@ -6,6 +6,7 @@ import ev.task.Task;
  * Runs E.V., a Spiderman-themed chatbot that reads and executes user commands.
  */
 public class EV {
+    private static final String DEFAULT_DATA_PATH = "data/ev.txt";
     private final Ui ui;
     private final Storage storage;
     private final String loadError;
@@ -16,7 +17,7 @@ public class EV {
      */
     public EV() {
         this.ui = new Ui();
-        this.storage = new Storage("data/ev.txt");
+        this.storage = new Storage(DEFAULT_DATA_PATH);
 
         TaskList loaded;
         String error;
@@ -48,7 +49,8 @@ public class EV {
      * @return the startup message.
      */
     public String getGreeting() {
-        return loadError == null ? ui.getWelcome() : ui.getWelcome() + "\n" + loadError;
+        String welcome = ui.getWelcome();
+        return loadError == null ? welcome : welcome + "\n" + loadError;
     }
 
     /**
@@ -134,7 +136,7 @@ public class EV {
             case FIND:
                 return ui.getFound(tasks.find(arguments));
             default:
-                return "";
+                throw new EvException("E.V. does not know how to run that command yet.");
         }
     }
 

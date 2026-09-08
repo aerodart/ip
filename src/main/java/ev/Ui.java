@@ -53,13 +53,7 @@ public class Ui {
      * @return the numbered registry listing.
      */
     public String getList(TaskList tasks) {
-        StringBuilder builder = new StringBuilder("Current task registry:");
-
-        for (int i = 0; i < tasks.size(); i++) {
-            builder.append("\n").append(i + 1).append(".").append(tasks.get(i));
-        }
-
-        return builder.toString();
+        return formatNumberedList("Current task registry:", tasks);
     }
 
     /**
@@ -69,7 +63,18 @@ public class Ui {
      * @return the numbered listing of matches.
      */
     public String getFound(TaskList tasks) {
-        StringBuilder builder = new StringBuilder("Matching entries in the registry:");
+        return formatNumberedList("Matching entries in the registry:", tasks);
+    }
+
+    /**
+     * Returns the given tasks under a header, numbered from one.
+     *
+     * @param header the line shown above the tasks.
+     * @param tasks the tasks to render.
+     * @return the header followed by the numbered tasks.
+     */
+    private String formatNumberedList(String header, TaskList tasks) {
+        StringBuilder builder = new StringBuilder(header);
 
         for (int i = 0; i < tasks.size(); i++) {
             builder.append("\n").append(i + 1).append(".").append(tasks.get(i));
