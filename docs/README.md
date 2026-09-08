@@ -88,6 +88,22 @@ Matching entries in the registry:
 2.[D][X] return book (by: Sep 18 2026, 6:00PM)
 ```
 
+## Sorting tasks
+
+Lists every task ordered alphabetically by description. The stored order
+is not changed.
+
+```
+sort
+```
+
+```
+Registry sorted by description:
+1.[T][ ] borrow book
+2.[E][ ] project meeting (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
+3.[D][X] return book (by: Sep 18 2026, 6:00PM)
+```
+
 ## Deleting a task
 
 ```

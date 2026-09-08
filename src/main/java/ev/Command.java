@@ -12,7 +12,8 @@ public enum Command {
     TODO("todo"),
     DEADLINE("deadline"),
     EVENT("event"),
-    FIND("find");
+    FIND("find"),
+    SORT("sort");
 
     private final String keyword;
 
