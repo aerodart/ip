@@ -14,6 +14,9 @@ import ev.task.Todo;
  * Parses raw user input into the commands and tasks E.V. works with.
  */
 public class Parser {
+    private static final DateTimeFormatter INPUT_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm", Locale.ENGLISH);
+
     /** Hides the implicit public constructor; Parser is never instantiated. */
     private Parser() {
     }
@@ -135,8 +138,7 @@ public class Parser {
      */
     public static LocalDateTime parseDateTime(String text) throws EvException {
         try {
-            return LocalDateTime.parse(text,
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm", Locale.ENGLISH));
+            return LocalDateTime.parse(text, INPUT_FORMAT);
         } catch (DateTimeParseException e) {
             throw new EvException("Dates must look like 2026-09-18 1800.");
         }

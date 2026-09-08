@@ -24,7 +24,7 @@ public class TaskList {
      * @param tasks the tasks to start with.
      */
     public TaskList(ArrayList<Task> tasks) {
-        this.tasks = tasks;
+        this.tasks = new ArrayList<>(tasks);
     }
 
     /**
@@ -77,7 +77,7 @@ public class TaskList {
      */
     public TaskList find(String keyword) {
         return new TaskList(tasks.stream()
-                .filter(task -> task.toString().contains(keyword))
+                .filter(task -> task.getDescription().contains(keyword))
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
 
