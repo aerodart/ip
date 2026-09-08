@@ -75,7 +75,8 @@ Use `unmark 2` to reopen it, which replies with `Task reopened.` instead.
 
 ## Finding tasks
 
-Lists every task whose text contains the keyword.
+Lists every task whose description contains the keyword. Status icons,
+type tags and dates are not searched.
 
 ```
 find book
