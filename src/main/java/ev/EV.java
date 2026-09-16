@@ -72,7 +72,11 @@ public class EV {
             }
 
             String response = execute(command, Parser.parseArguments(input));
-            storage.save(tasks);
+
+            if (command.isMutating()) {
+                storage.save(tasks);
+            }
+
             return response;
         } catch (EvException e) {
             return e.getMessage();
