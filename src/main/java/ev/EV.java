@@ -23,8 +23,12 @@ public class EV {
         String error;
 
         try {
-            loaded = new TaskList(storage.load());
-            error = null;
+            Storage.LoadResult result = storage.load();
+
+            loaded = new TaskList(result.tasks());
+            error = result.skippedLineCount() == 0
+                    ? null
+                    : ui.getSkippedLineWarning(result.skippedLineCount());
         } catch (EvException e) {
             loaded = new TaskList();
             error = e.getMessage();

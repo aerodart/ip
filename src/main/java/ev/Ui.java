@@ -146,6 +146,19 @@ public class Ui {
     }
 
     /**
+     * Returns the warning shown when the data file held lines E.V. could not read.
+     *
+     * @param skippedLineCount how many lines were left out.
+     * @return the warning message.
+     */
+    public String getSkippedLineWarning(int skippedLineCount) {
+        return skippedLineCount == 1
+                ? "Warning: 1 damaged entry in my memory banks was left out."
+                : "Warning: " + skippedLineCount
+                        + " damaged entries in my memory banks were left out.";
+    }
+
+    /**
      * Closes the input source.
      */
     public void close() {
