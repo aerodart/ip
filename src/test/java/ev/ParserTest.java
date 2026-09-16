@@ -47,4 +47,8 @@ public class ParserTest {
         assertEquals("Dates must look like 2026-09-18 1800.", thrown.getMessage());
     }
 
+    @Test
+    public void parseTodo_descriptionWithSeparator_throwsEvException() {
+        assertThrows(EvException.class, () -> Parser.parseTodo("alpha | beta"));
+    }
 }

@@ -19,6 +19,8 @@ public class Parser {
             DateTimeFormatter.ofPattern("uuuu-MM-dd HHmm", Locale.ENGLISH)
                     .withResolverStyle(ResolverStyle.STRICT);
 
+    private static final String STORAGE_SEPARATOR = "|";
+
     /** Hides the implicit public constructor; Parser is never instantiated. */
     private Parser() {
     }
@@ -88,6 +90,8 @@ public class Parser {
             throw new EvException("A todo needs a description.");
         }
 
+        validateDescription(arguments);
+
         return new Todo(arguments);
     }
 
@@ -104,6 +108,8 @@ public class Parser {
         if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
             throw new EvException("A deadline needs a description and a /by time.");
         }
+
+        validateDescription(parts[0]);
 
         return new Deadline(parts[0], parseDateTime(parts[1]));
     }
@@ -128,6 +134,8 @@ public class Parser {
             throw new EvException("An event needs a /to time.");
         }
 
+        validateDescription(fromParts[0]);
+
         return new Event(fromParts[0], parseDateTime(timeParts[0]), parseDateTime(timeParts[1]));
     }
 
@@ -145,4 +153,19 @@ public class Parser {
             throw new EvException("Dates must look like 2026-09-18 1800.");
         }
     }
+
+    /**
+     * Checks that a description can be written to and read back from the data file.
+     * The separator character would split the description into extra fields on reload,
+     * silently truncating it.
+     *
+     * @param description the description as the user typed it.
+     * @throws EvException if the description contains the storage separator.
+     */
+    private static void validateDescription(String description) throws EvException {
+        if (description.contains(STORAGE_SEPARATOR)) {
+            throw new EvException("Descriptions cannot contain '|'. It separates fields in my memory banks.");
+        }
+    }
+
 }
