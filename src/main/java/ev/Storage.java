@@ -63,7 +63,6 @@ public class Storage {
         return new LoadResult(tasks, skippedLineCount);
     }
 
-
     /**
      * Writes every task in the registry to the data file, replacing its previous contents.
      *
@@ -139,5 +138,4 @@ public class Storage {
      */
     public record LoadResult(ArrayList<Task> tasks, int skippedLineCount) {
     }
-
 }

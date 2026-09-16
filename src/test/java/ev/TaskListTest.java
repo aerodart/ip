@@ -93,5 +93,4 @@ public class TaskListTest {
         assertEquals("[T][ ] write report", sorted.get(2).toString());
         assertEquals("[T][ ] write report", tasks.get(0).toString());
     }
-
 }
