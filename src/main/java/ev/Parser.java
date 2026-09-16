@@ -3,6 +3,7 @@ package ev;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Locale;
 
 import ev.task.Deadline;
@@ -15,7 +16,8 @@ import ev.task.Todo;
  */
 public class Parser {
     private static final DateTimeFormatter INPUT_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm", Locale.ENGLISH);
+            DateTimeFormatter.ofPattern("uuuu-MM-dd HHmm", Locale.ENGLISH)
+                    .withResolverStyle(ResolverStyle.STRICT);
 
     /** Hides the implicit public constructor; Parser is never instantiated. */
     private Parser() {
