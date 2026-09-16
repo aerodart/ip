@@ -51,4 +51,21 @@ public class ParserTest {
     public void parseTodo_descriptionWithSeparator_throwsEvException() {
         assertThrows(EvException.class, () -> Parser.parseTodo("alpha | beta"));
     }
+
+    @Test
+    public void parseDeadline_impossibleDate_throwsEvException() {
+        assertThrows(EvException.class, () -> Parser.parseDeadline("x /by 2026-02-30 1800"));
+        assertThrows(EvException.class, () -> Parser.parseDeadline("x /by 2026-02-29 1800"));
+    }
+
+    @Test
+    public void parseDeadline_hourOutOfRange_throwsEvException() {
+        assertThrows(EvException.class, () -> Parser.parseDeadline("x /by 2026-09-18 2400"));
+    }
+
+    @Test
+    public void parseDeadline_leapDay_returnsDeadline() throws EvException {
+        assertEquals("[D][ ] x (by: Feb 29 2024, 6:00PM)",
+                Parser.parseDeadline("x /by 2024-02-29 1800").toString());
+    }
 }
