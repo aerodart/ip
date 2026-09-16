@@ -136,7 +136,14 @@ public class Parser {
 
         validateDescription(fromParts[0]);
 
-        return new Event(fromParts[0], parseDateTime(timeParts[0]), parseDateTime(timeParts[1]));
+        LocalDateTime from = parseDateTime(timeParts[0]);
+        LocalDateTime to = parseDateTime(timeParts[1]);
+
+        if (to.isBefore(from)) {
+            throw new EvException("An event cannot end before it starts.");
+        }
+
+        return new Event(fromParts[0], from, to);
     }
 
     /**
@@ -168,4 +175,18 @@ public class Parser {
         }
     }
 
+    /**
+     * Returns the text a find command should search for.
+     *
+     * @param arguments the text following the find keyword.
+     * @return the search text.
+     * @throws EvException if no search text is given.
+     */
+    public static String parseSearchKeyword(String arguments) throws EvException {
+        if (arguments.isEmpty()) {
+            throw new EvException("Tell me what to search for.");
+        }
+
+        return arguments;
+    }
 }

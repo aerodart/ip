@@ -68,4 +68,15 @@ public class ParserTest {
         assertEquals("[D][ ] x (by: Feb 29 2024, 6:00PM)",
                 Parser.parseDeadline("x /by 2024-02-29 1800").toString());
     }
+
+    @Test
+    public void parseSearchKeyword_empty_throwsEvException() {
+        assertThrows(EvException.class, () -> Parser.parseSearchKeyword(""));
+    }
+
+    @Test
+    public void parseEvent_endBeforeStart_throwsEvException() {
+        assertThrows(
+            EvException.class, () -> Parser.parseEvent("x /from 2026-09-20 1600 /to 2026-09-20 1400"));
+    }
 }

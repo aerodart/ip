@@ -142,7 +142,7 @@ public class EV {
             case EVENT:
                 return addTask(Parser.parseEvent(arguments));
             case FIND:
-                return ui.getFound(tasks.find(arguments));
+                return ui.getFound(tasks.find(Parser.parseSearchKeyword(arguments)));
             case SORT:
                 return ui.getSorted(tasks.sortByDescription());
             default:
