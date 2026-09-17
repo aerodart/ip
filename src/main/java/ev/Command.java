@@ -46,7 +46,7 @@ public enum Command {
             }
         }
 
-        throw new EvException("I'm sorry Jonathan, but this command seems to be outside "
+        throw new EvException("I'm sorry Spidey, but this command seems to be outside "
                 + "my current scope. Try again.");
     }
 }

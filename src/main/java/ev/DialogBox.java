@@ -43,7 +43,11 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(avatar);
-        displayPicture.setClip(new Circle(49.5, 49.5, 49.5));
+
+        // Derived from the FXML rather than hard coded, so resizing the avatar
+        // there cannot leave the circular clip the wrong size.
+        double radius = displayPicture.getFitWidth() / 2;
+        displayPicture.setClip(new Circle(radius, radius, radius));
     }
 
     /**

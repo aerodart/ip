@@ -33,8 +33,8 @@ public class Ui {
      */
     public String getWelcome() {
         return "E.V. online.\n"
-                + "Good evening, Jonathan.\n"
-                + "Systems are operational. What can I do for you?\n";
+                + "Suit systems nominal, Spidey.\n"
+                + "What's on the list for the friendly neighbourhood spiderman today?\n";
     }
 
     /**
@@ -43,7 +43,7 @@ public class Ui {
      * @return the farewell shown when the user says bye.
      */
     public String getGoodbye() {
-        return "\nE.V. offline. Until next time, Jonathan.";
+        return "\nE.V. offline. Swing safe, Spidey.";
     }
 
     /**

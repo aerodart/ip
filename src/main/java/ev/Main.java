@@ -25,8 +25,8 @@ public class Main extends Application {
 
             stage.setScene(scene);
             stage.setTitle("E.V.");
-            stage.setMinHeight(220);
-            stage.setMinWidth(417);
+            stage.setMinHeight(420);
+            stage.setMinWidth(380);
 
             fxmlLoader.<MainWindow>getController().setEv(ev);
             stage.show();

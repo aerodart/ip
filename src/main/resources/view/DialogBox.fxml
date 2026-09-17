@@ -18,15 +18,15 @@
   <children>
     <Label fx:id="dialog" text="Label" wrapText="true" minHeight="-Infinity">
       <HBox.margin>
-        <Insets left="7.0" right="7.0" />
+        <Insets left="9.0" right="9.0" />
       </HBox.margin>
       <padding>
-        <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+        <Insets bottom="9.0" left="12.0" right="12.0" top="9.0" />
       </padding>
     </Label>
-    <ImageView fx:id="displayPicture" fitHeight="99.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true" />
+    <ImageView fx:id="displayPicture" fitHeight="44.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true" />
   </children>
   <padding>
-    <Insets bottom="15.0" left="5.0" right="5.0" top="15.0" />
+    <Insets bottom="0.0" left="0.0" right="0.0" top="0.0" />
   </padding>
 </fx:root>
