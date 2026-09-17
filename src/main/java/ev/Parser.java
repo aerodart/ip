@@ -33,11 +33,13 @@ public class Parser {
      * @throws EvException if the input is empty or names no known command.
      */
     public static Command parseCommand(String input) throws EvException {
-        if (input.isEmpty()) {
+        String trimmed = input.trim();
+
+        if (trimmed.isEmpty()) {
             throw new EvException("No command entered.");
         }
 
-        return Command.parseKeyword(input.split(" ", 2)[0]);
+        return Command.parseKeyword(trimmed.split("\\s+", 2)[0]);
     }
 
     /**
@@ -47,7 +49,7 @@ public class Parser {
      * @return the trimmed argument text.
      */
     public static String parseArguments(String input) {
-        String[] words = input.split(" ", 2);
+        String[] words = input.trim().split("\\s+", 2);
         return words.length > 1 ? words[1].trim() : "";
     }
 

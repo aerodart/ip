@@ -79,4 +79,16 @@ public class ParserTest {
         assertThrows(
             EvException.class, () -> Parser.parseEvent("x /from 2026-09-20 1600 /to 2026-09-20 1400"));
     }
+
+    @Test
+    public void parseCommand_surroundingWhitespace_stillParses() throws EvException {
+        assertEquals(Command.LIST, Parser.parseCommand(" list "));
+        assertEquals(Command.TODO, Parser.parseCommand("\ttodo x"));
+    }
+
+    @Test
+    public void parseArguments_extraWhitespace_returnsTrimmedText() {
+        assertEquals("read book", Parser.parseArguments("  todo   read book  "));
+    }
+
 }
