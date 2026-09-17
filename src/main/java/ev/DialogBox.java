@@ -38,13 +38,12 @@ public class DialogBox extends HBox {
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("DialogBox.fxml is missing from the build.", e);
         }
 
         dialog.setText(text);
         displayPicture.setImage(avatar);
         displayPicture.setClip(new Circle(49.5, 49.5, 49.5));
-
     }
 
     /**
