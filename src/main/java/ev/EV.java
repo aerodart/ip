@@ -23,8 +23,12 @@ public class EV {
         String error;
 
         try {
-            loaded = new TaskList(storage.load());
-            error = null;
+            Storage.LoadResult result = storage.load();
+
+            loaded = new TaskList(result.tasks());
+            error = result.skippedLineCount() == 0
+                    ? null
+                    : ui.getSkippedLineWarning(result.skippedLineCount());
         } catch (EvException e) {
             loaded = new TaskList();
             error = e.getMessage();
@@ -68,7 +72,11 @@ public class EV {
             }
 
             String response = execute(command, Parser.parseArguments(input));
-            storage.save(tasks);
+
+            if (command.isMutating()) {
+                storage.save(tasks);
+            }
+
             return response;
         } catch (EvException e) {
             return e.getMessage();
@@ -134,7 +142,7 @@ public class EV {
             case EVENT:
                 return addTask(Parser.parseEvent(arguments));
             case FIND:
-                return ui.getFound(tasks.find(arguments));
+                return ui.getFound(tasks.find(Parser.parseSearchKeyword(arguments)));
             case SORT:
                 return ui.getSorted(tasks.sortByDescription());
             default:

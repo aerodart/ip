@@ -2,6 +2,7 @@ package ev;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import ev.task.Task;
@@ -71,25 +72,27 @@ public class TaskList {
     }
 
     /**
-     * Returns the tasks whose descriptions contain the given text.
+     * Returns the tasks whose descriptions contain the given text, case-ignored.
      *
      * @param keyword the text to search for.
      * @return a registry holding only the matching tasks.
      */
     public TaskList find(String keyword) {
+        String target = keyword.toLowerCase(Locale.ENGLISH);
+
         return new TaskList(tasks.stream()
-                .filter(task -> task.getDescription().contains(keyword))
+                .filter(task -> task.getDescription().toLowerCase(Locale.ENGLISH).contains(target))
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
 
     /**
-     * Returns a registry holding the same tasks ordered by description.
+     * Returns a registry holding the same tasks ordered by description, case-ignored.
      *
      * @return a registry with the tasks sorted alphabetically.
      */
     public TaskList sortByDescription() {
         return new TaskList(tasks.stream()
-                .sorted(Comparator.comparing(Task::getDescription))
+                .sorted(Comparator.comparing(Task::getDescription, String.CASE_INSENSITIVE_ORDER))
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
 

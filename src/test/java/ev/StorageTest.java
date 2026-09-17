@@ -1,7 +1,6 @@
 package ev;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,7 +26,7 @@ public class StorageTest {
     public void load_fileDoesNotExist_returnsEmptyList() throws EvException {
         Storage storage = new Storage(tempDir.resolve("missing.txt").toString());
 
-        assertEquals(0, storage.load().size());
+        assertEquals(0, storage.load().tasks().size());
     }
 
     @Test
@@ -41,7 +40,7 @@ public class StorageTest {
 
         storage.save(tasks);
 
-        ArrayList<Task> loaded = storage.load();
+        ArrayList<Task> loaded = storage.load().tasks();
 
         assertEquals(2, loaded.size());
         assertEquals("[T][X] borrow book", loaded.get(0).toString());
@@ -49,22 +48,37 @@ public class StorageTest {
     }
 
     @Test
-    public void load_unknownTaskType_throwsEvException() throws IOException {
+    public void load_unknownTaskType_skipsLine() throws IOException, EvException {
         Path file = tempDir.resolve("ev.txt");
         Files.writeString(file, "X | 0 | not a real task type\n");
 
-        Storage storage = new Storage(file.toString());
+        Storage.LoadResult result = new Storage(file.toString()).load();
 
-        assertThrows(EvException.class, storage::load);
+        assertEquals(0, result.tasks().size());
+        assertEquals(1, result.skippedLineCount());
     }
 
     @Test
-    public void load_tooFewFields_throwsEvException() throws IOException {
+    public void load_tooFewFields_skipsLine() throws IOException, EvException {
         Path file = tempDir.resolve("ev.txt");
         Files.writeString(file, "T | 0\n");
 
-        Storage storage = new Storage(file.toString());
+        Storage.LoadResult result = new Storage(file.toString()).load();
 
-        assertThrows(EvException.class, storage::load);
+        assertEquals(0, result.tasks().size());
+        assertEquals(1, result.skippedLineCount());
+    }
+
+    @Test
+    public void load_oneBadLineAmongValid_keepsValidTasks() throws IOException, EvException {
+        Path file = tempDir.resolve("ev.txt");
+        Files.writeString(file, "T | 0 | one\nX | 0 | CORRUPT\nT | 0 | two\n");
+
+        Storage.LoadResult result = new Storage(file.toString()).load();
+
+        assertEquals(2, result.tasks().size());
+        assertEquals(1, result.skippedLineCount());
+        assertEquals("[T][ ] one", result.tasks().get(0).toString());
+        assertEquals("[T][ ] two", result.tasks().get(1).toString());
     }
 }

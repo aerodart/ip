@@ -47,4 +47,48 @@ public class ParserTest {
         assertEquals("Dates must look like 2026-09-18 1800.", thrown.getMessage());
     }
 
+    @Test
+    public void parseTodo_descriptionWithSeparator_throwsEvException() {
+        assertThrows(EvException.class, () -> Parser.parseTodo("alpha | beta"));
+    }
+
+    @Test
+    public void parseDeadline_impossibleDate_throwsEvException() {
+        assertThrows(EvException.class, () -> Parser.parseDeadline("x /by 2026-02-30 1800"));
+        assertThrows(EvException.class, () -> Parser.parseDeadline("x /by 2026-02-29 1800"));
+    }
+
+    @Test
+    public void parseDeadline_hourOutOfRange_throwsEvException() {
+        assertThrows(EvException.class, () -> Parser.parseDeadline("x /by 2026-09-18 2400"));
+    }
+
+    @Test
+    public void parseDeadline_leapDay_returnsDeadline() throws EvException {
+        assertEquals("[D][ ] x (by: Feb 29 2024, 6:00PM)",
+                Parser.parseDeadline("x /by 2024-02-29 1800").toString());
+    }
+
+    @Test
+    public void parseSearchKeyword_empty_throwsEvException() {
+        assertThrows(EvException.class, () -> Parser.parseSearchKeyword(""));
+    }
+
+    @Test
+    public void parseEvent_endBeforeStart_throwsEvException() {
+        assertThrows(
+            EvException.class, () -> Parser.parseEvent("x /from 2026-09-20 1600 /to 2026-09-20 1400"));
+    }
+
+    @Test
+    public void parseCommand_surroundingWhitespace_stillParses() throws EvException {
+        assertEquals(Command.LIST, Parser.parseCommand(" list "));
+        assertEquals(Command.TODO, Parser.parseCommand("\ttodo x"));
+    }
+
+    @Test
+    public void parseArguments_extraWhitespace_returnsTrimmedText() {
+        assertEquals("read book", Parser.parseArguments("  todo   read book  "));
+    }
+
 }

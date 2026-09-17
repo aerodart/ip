@@ -4,21 +4,32 @@ package ev;
  * Represents E.V.'s understood commands, each paired with the keyword the user types.
  */
 public enum Command {
-    BYE("bye"),
-    LIST("list"),
-    MARK("mark"),
-    UNMARK("unmark"),
-    DELETE("delete"),
-    TODO("todo"),
-    DEADLINE("deadline"),
-    EVENT("event"),
-    FIND("find"),
-    SORT("sort");
+    BYE("bye", false),
+    LIST("list", false),
+    MARK("mark", true),
+    UNMARK("unmark", true),
+    DELETE("delete", true),
+    TODO("todo", true),
+    DEADLINE("deadline", true),
+    EVENT("event", true),
+    FIND("find", false),
+    SORT("sort", false);
 
     private final String keyword;
+    private final boolean isMutating;
 
-    Command(String keyword) {
+    Command(String keyword, boolean isMutating) {
         this.keyword = keyword;
+        this.isMutating = isMutating;
+    }
+
+    /**
+     * Returns whether carrying out this command changes the task registry.
+     *
+     * @return true if the registry must be saved after this command runs.
+     */
+    public boolean isMutating() {
+        return isMutating;
     }
 
     /**

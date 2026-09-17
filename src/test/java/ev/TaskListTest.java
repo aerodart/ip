@@ -94,4 +94,21 @@ public class TaskListTest {
         assertEquals("[T][ ] write report", tasks.get(0).toString());
     }
 
+    @Test
+    public void find_differentCase_stillMatches() {
+        TaskList tasks = TaskList.of(new Todo("Borrow Book"));
+
+        assertEquals(1, tasks.find("book").size());
+        assertEquals(1, tasks.find("BOOK").size());
+    }
+
+    @Test
+    public void sortByDescription_mixedCase_ordersAlphabetically() {
+        TaskList sorted = TaskList.of(new Todo("apple"), new Todo("Zebra"), new Todo("banana"))
+                .sortByDescription();
+
+        assertEquals("[T][ ] apple", sorted.get(0).toString());
+        assertEquals("[T][ ] banana", sorted.get(1).toString());
+        assertEquals("[T][ ] Zebra", sorted.get(2).toString());
+    }
 }

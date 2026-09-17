@@ -53,7 +53,7 @@ public class Ui {
      * @return the numbered registry listing.
      */
     public String getList(TaskList tasks) {
-        return formatNumberedList("Current task registry:", tasks);
+        return formatNumberedList("Current task registry:", "The registry is empty.", tasks);
     }
 
     /**
@@ -63,7 +63,8 @@ public class Ui {
      * @return the numbered listing of matches.
      */
     public String getFound(TaskList tasks) {
-        return formatNumberedList("Matching entries in the registry:", tasks);
+        return formatNumberedList("Matching entries in the registry:",
+                "Nothing in the registry matches that.", tasks);
     }
 
     /**
@@ -73,17 +74,23 @@ public class Ui {
      * @return the numbered sorted listing.
      */
     public String getSorted(TaskList tasks) {
-        return formatNumberedList("Registry sorted by description:", tasks);
+        return formatNumberedList("Registry sorted by description:", "The registry is empty.", tasks);
     }
 
     /**
-     * Returns the given tasks under a header, numbered from one.
+     * Returns the given tasks under a header, numbered from one, or the empty message
+     * if there are none.
      *
      * @param header the line shown above the tasks.
+     * @param emptyMessage the text returned instead when there are no tasks.
      * @param tasks the tasks to render.
-     * @return the header followed by the numbered tasks.
+     * @return the header followed by the numbered tasks, or the empty message.
      */
-    private String formatNumberedList(String header, TaskList tasks) {
+    private String formatNumberedList(String header, String emptyMessage, TaskList tasks) {
+        if (tasks.size() == 0) {
+            return emptyMessage;
+        }
+
         StringBuilder builder = new StringBuilder(header);
 
         for (int i = 0; i < tasks.size(); i++) {
@@ -143,6 +150,19 @@ public class Ui {
      */
     public String getRegistryCount(int taskCount) {
         return "Registry holds " + taskCount + (taskCount == 1 ? " task." : " tasks.");
+    }
+
+    /**
+     * Returns the warning shown when the data file held lines E.V. could not read.
+     *
+     * @param skippedLineCount how many lines were left out.
+     * @return the warning message.
+     */
+    public String getSkippedLineWarning(int skippedLineCount) {
+        return skippedLineCount == 1
+                ? "Warning: 1 damaged entry in my memory banks was left out."
+                : "Warning: " + skippedLineCount
+                        + " damaged entries in my memory banks were left out.";
     }
 
     /**

@@ -27,31 +27,40 @@ public class Storage {
     }
 
     /**
-     * Returns the tasks recorded in the data file, or an empty list if it does not exist yet.
+     * Returns the tasks recorded in the data file, skipping any line that cannot be read.
+     * A damaged line is left out rather than discarding the whole file, so one bad entry
+     * never costs the user every other task.
      *
-     * @return the saved tasks.
-     * @throws EvException if the file exists but cannot be read or understood.
+     * @return the tasks that loaded and the number of lines that were skipped.
+     * @throws EvException if the file exists but cannot be opened for reading.
      */
-    public ArrayList<Task> load() throws EvException {
+    public LoadResult load() throws EvException {
         ArrayList<Task> tasks = new ArrayList<>();
+        int skippedLineCount = 0;
 
         if (!file.exists()) {
-            return tasks;
+            return new LoadResult(tasks, skippedLineCount);
         }
 
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().trim();
 
-                if (!line.isEmpty()) {
+                if (line.isEmpty()) {
+                    continue;
+                }
+
+                try {
                     tasks.add(decode(line));
+                } catch (EvException e) {
+                    skippedLineCount++;
                 }
             }
         } catch (IOException e) {
             throw new EvException("I could not read my memory banks.");
         }
 
-        return tasks;
+        return new LoadResult(tasks, skippedLineCount);
     }
 
     /**
@@ -119,5 +128,14 @@ public class Storage {
         }
 
         return task;
+    }
+
+    /**
+     * Represents the outcome of reading the data file.
+     *
+     * @param tasks the tasks that were read successfully.
+     * @param skippedLineCount how many lines were damaged and therefore left out.
+     */
+    public record LoadResult(ArrayList<Task> tasks, int skippedLineCount) {
     }
 }

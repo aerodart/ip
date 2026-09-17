@@ -3,6 +3,7 @@ package ev;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Locale;
 
 import ev.task.Deadline;
@@ -15,7 +16,10 @@ import ev.task.Todo;
  */
 public class Parser {
     private static final DateTimeFormatter INPUT_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm", Locale.ENGLISH);
+            DateTimeFormatter.ofPattern("uuuu-MM-dd HHmm", Locale.ENGLISH)
+                    .withResolverStyle(ResolverStyle.STRICT);
+
+    private static final String STORAGE_SEPARATOR = "|";
 
     /** Hides the implicit public constructor; Parser is never instantiated. */
     private Parser() {
@@ -29,11 +33,13 @@ public class Parser {
      * @throws EvException if the input is empty or names no known command.
      */
     public static Command parseCommand(String input) throws EvException {
-        if (input.isEmpty()) {
+        String trimmed = input.trim();
+
+        if (trimmed.isEmpty()) {
             throw new EvException("No command entered.");
         }
 
-        return Command.parseKeyword(input.split(" ", 2)[0]);
+        return Command.parseKeyword(trimmed.split("\\s+", 2)[0]);
     }
 
     /**
@@ -43,7 +49,7 @@ public class Parser {
      * @return the trimmed argument text.
      */
     public static String parseArguments(String input) {
-        String[] words = input.split(" ", 2);
+        String[] words = input.trim().split("\\s+", 2);
         return words.length > 1 ? words[1].trim() : "";
     }
 
@@ -86,6 +92,8 @@ public class Parser {
             throw new EvException("A todo needs a description.");
         }
 
+        validateDescription(arguments);
+
         return new Todo(arguments);
     }
 
@@ -102,6 +110,8 @@ public class Parser {
         if (parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
             throw new EvException("A deadline needs a description and a /by time.");
         }
+
+        validateDescription(parts[0]);
 
         return new Deadline(parts[0], parseDateTime(parts[1]));
     }
@@ -126,7 +136,16 @@ public class Parser {
             throw new EvException("An event needs a /to time.");
         }
 
-        return new Event(fromParts[0], parseDateTime(timeParts[0]), parseDateTime(timeParts[1]));
+        validateDescription(fromParts[0]);
+
+        LocalDateTime from = parseDateTime(timeParts[0]);
+        LocalDateTime to = parseDateTime(timeParts[1]);
+
+        if (to.isBefore(from)) {
+            throw new EvException("An event cannot end before it starts.");
+        }
+
+        return new Event(fromParts[0], from, to);
     }
 
     /**
@@ -142,5 +161,34 @@ public class Parser {
         } catch (DateTimeParseException e) {
             throw new EvException("Dates must look like 2026-09-18 1800.");
         }
+    }
+
+    /**
+     * Checks that a description can be written to and read back from the data file.
+     * The separator character would split the description into extra fields on reload,
+     * silently truncating it.
+     *
+     * @param description the description as the user typed it.
+     * @throws EvException if the description contains the storage separator.
+     */
+    private static void validateDescription(String description) throws EvException {
+        if (description.contains(STORAGE_SEPARATOR)) {
+            throw new EvException("Descriptions cannot contain '|'. It separates fields in my memory banks.");
+        }
+    }
+
+    /**
+     * Returns the text a find command should search for.
+     *
+     * @param arguments the text following the find keyword.
+     * @return the search text.
+     * @throws EvException if no search text is given.
+     */
+    public static String parseSearchKeyword(String arguments) throws EvException {
+        if (arguments.isEmpty()) {
+            throw new EvException("Tell me what to search for.");
+        }
+
+        return arguments;
     }
 }
