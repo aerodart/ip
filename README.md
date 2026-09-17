@@ -2,15 +2,18 @@
 
 [![Java CI](https://github.com/aerodart/ip/actions/workflows/gradle.yml/badge.svg)](https://github.com/aerodart/ip/actions/workflows/gradle.yml)
 
-E.V. is a command-line task assistant that keeps track of your todos, deadlines
-and events, and remembers them between sessions.
+E.V. is a JavaFX desktop task assistant that keeps track of your todos,
+deadlines and events, and remembers them between sessions.
+
+[User guide](https://aerodart.github.io/ip/)
 
 ## Features
 
 - Add todos, deadlines and events
 - Mark tasks as done or not done
 - Delete tasks from the registry
-- Search tasks by keyword
+- Search tasks by keyword, ignoring case
+- Sort tasks alphabetically by description
 - Automatic saving to and loading from `data/ev.txt`
 
 ## Getting started

@@ -1,9 +1,22 @@
 # E.V. User Guide
 
-E.V. is a Spiderman-themed command-line assistant that tracks your tasks and
-remembers them between sessions.
+E.V. is a desktop assistant that tracks your tasks and remembers them between
+sessions. You talk to it by typing commands into a chat window.
 
 ![E.V. in action](Ui.png)
+
+## Quick start
+
+1. Check you have Java 25 installed by running `java -version`.
+2. Download `ev.jar` from the [latest release](https://github.com/aerodart/ip/releases).
+3. Put the jar in an empty folder, open a terminal in that folder, and run:
+
+```
+java -jar ev.jar
+```
+
+E.V. creates `data/ev.txt` next to the jar to remember your tasks, so launch it
+from the same folder each time.
 
 ## Adding a todo
 
@@ -75,8 +88,9 @@ Use `unmark 2` to reopen it, which replies with `Task reopened.` instead.
 
 ## Finding tasks
 
-Lists every task whose description contains the keyword. Status icons,
-type tags and dates are not searched.
+Lists every task whose description contains the keyword. Case is ignored, so
+`find book` also matches `Borrow Book`. Status icons, type tags and dates are
+not searched. The keyword cannot be left out.
 
 ```
 find book
@@ -90,8 +104,8 @@ Matching entries in the registry:
 
 ## Sorting tasks
 
-Lists every task ordered alphabetically by description. The stored order
-is not changed.
+Lists every task ordered alphabetically by description, ignoring case. The
+stored order is not changed.
 
 ```
 sort
@@ -124,5 +138,28 @@ bye
 
 ## Saving
 
-Tasks are saved to `data/ev.txt` after every command and reloaded on startup,
-so nothing needs to be saved by hand.
+Tasks are saved to `data/ev.txt` whenever you change the registry, and reloaded
+on startup, so nothing needs to be saved by hand. Commands that only read the
+registry, such as `list`, `find` and `sort`, leave the file untouched.
+
+If a line in the data file has been damaged, E.V. skips that line, tells you how
+many it left out, and keeps every task it could still read.
+
+## Command summary
+
+| Command | Format |
+|---|---|
+| Add a todo | `todo DESCRIPTION` |
+| Add a deadline | `deadline DESCRIPTION /by yyyy-MM-dd HHmm` |
+| Add an event | `event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm` |
+| List all tasks | `list` |
+| Mark as done | `mark TASK_NUMBER` |
+| Mark as not done | `unmark TASK_NUMBER` |
+| Delete a task | `delete TASK_NUMBER` |
+| Search | `find KEYWORD` |
+| Sort by description | `sort` |
+| Exit | `bye` |
+
+Two rules apply to every description. Dates must be real, so `2026-02-30 1800`
+is rejected rather than quietly moved to February 28. Descriptions cannot
+contain `|`, because that character separates fields in the data file.
