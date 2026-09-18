@@ -105,7 +105,7 @@ public class EV {
     private void runCommandLoop() {
         System.out.println(getGreeting());
 
-        while (true) {
+        while (ui.hasCommand()) {
             String input = ui.readCommand();
             String response = getResponse(input);
 

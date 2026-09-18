@@ -28,6 +28,15 @@ public class Ui {
     }
 
     /**
+     * Returns whether there is another line of console input to read.
+     *
+     * @return true if the input source has not been exhausted.
+     */
+    public boolean hasCommand() {
+        return scanner.hasNextLine();
+    }
+
+    /**
      * Returns E.V.'s startup banner.
      *
      * @return the greeting shown when E.V. starts.
