@@ -57,3 +57,7 @@ This compiles the code, runs the unit tests and produces `build/libs/ev.jar`.
     <https://screenrant.com/spider-man-homecoming-jarvis/>
   - The user's avatar, a frame from a Spider-Man GIF on Tenor:
     <https://tenor.com/en-GB/view/spider-man-gif-5310236965465327623>
+- Claude (Anthropic) was used throughout this project as a coding
+  assistant for reviewing code and testcases, diagnosing bugs and drafting parts of the documentation. All output was reviewed, tested and revised by me before being
+  committed.
+
