@@ -92,6 +92,9 @@ Lists every task whose description contains the keyword. Case is ignored, so
 `find book` also matches `Borrow Book`. Status icons, type tags and dates are
 not searched. The keyword cannot be left out.
 
+Each result keeps its registry number, so you can pass the number shown straight
+to `mark`, `unmark` or `delete`.
+
 ```
 find book
 ```
@@ -107,6 +110,10 @@ Matching entries in the registry:
 Lists every task ordered alphabetically by description, ignoring case. The
 stored order is not changed.
 
+The numbers are registry positions, not a fresh count, so after a sort they will
+not run in order. That is deliberate: the number shown is the one `mark`,
+`unmark` and `delete` accept.
+
 ```
 sort
 ```
@@ -114,8 +121,8 @@ sort
 ```
 Registry sorted by description:
 1.[T][ ] borrow book
-2.[E][ ] project meeting (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
-3.[D][X] return book (by: Sep 18 2026, 6:00PM)
+3.[E][ ] project meeting (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
+2.[D][X] return book (by: Sep 18 2026, 6:00PM)
 ```
 
 ## Deleting a task
@@ -128,6 +135,14 @@ delete 1
 Task removed:
   [T][ ] borrow book
 Registry holds 2 tasks.
+```
+
+## Getting the command list
+
+Prints every command E.V. understands and the format of each.
+
+```
+help
 ```
 
 ## Exiting
@@ -158,7 +173,12 @@ many it left out, and keeps every task it could still read.
 | Delete a task | `delete TASK_NUMBER` |
 | Search | `find KEYWORD` |
 | Sort by description | `sort` |
+| Show the command list | `help` |
 | Exit | `bye` |
+
+`list`, `sort`, `help` and `bye` take no arguments. Anything typed after them is
+refused rather than ignored, so a command that had no effect never looks as
+though it worked.
 
 Two rules apply to every description. Dates must be real, so `2026-02-30 1800`
 is rejected rather than quietly moved to February 28. Descriptions cannot

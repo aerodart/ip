@@ -146,6 +146,29 @@ Three things here. Lowercase `book` matches `Borrow Book` and so does uppercase
 rather than printing a bare header. A `find` with no keyword is refused rather
 than returning the whole registry.
 
+Then, from a fresh folder, the case that matters most:
+
+| Input |
+|---|
+| `todo alpha` |
+| `todo beta` |
+| `todo buy milk` |
+| `find buy` |
+| `mark 3` |
+
+**Expect:**
+
+```
+Matching entries in the registry:
+3.[T][ ] buy milk
+Task completed.
+[T][X] buy milk
+```
+
+The result is labelled **3**, its registry position, not 1. Then `mark 3` marks
+the task that was shown. Before this was fixed the result was labelled 1 and
+`mark 1` marked `alpha` instead, silently acting on a different task.
+
 ---
 
 ## 6. Sorting
@@ -163,20 +186,25 @@ than returning the whole registry.
 ```
 Registry sorted by description:
 1.[T][ ] apple
-2.[T][ ] banana
-3.[T][ ] Zebra
+3.[T][ ] banana
+2.[T][ ] Zebra
 Current task registry:
 1.[T][ ] apple
 2.[T][ ] Zebra
 3.[T][ ] banana
 ```
 
-`Zebra` sorts last, not first, so ordering is case-insensitive rather than by
-character code. And `list` afterwards still shows insertion order, so `sort`
-returns a view without rewriting the registry.
+Three things. `Zebra` sorts last, not first, so ordering is case-insensitive
+rather than by character code. The numbers run **1, 3, 2** because they are
+registry positions rather than a fresh count, which is what makes them safe to
+pass to `mark` and `delete`. And `list` afterwards still shows insertion order,
+so `sort` returns a view without rewriting the registry.
 
-**Known limitation:** `sort` ignores anything typed after it, so `sort buy`
-behaves identically to `sort`. Same for `list` and `bye`.
+Then `sort buy`:
+
+```
+The sort command takes no extra words.
+```
 
 ---
 
@@ -255,6 +283,19 @@ No command entered.
 ```
 
 `FLY` failing shows commands are case-sensitive. That is intended, not a bug.
+
+Then the commands that take no arguments at all:
+
+| Input | Expected |
+|---|---|
+| `list everything` | `The list command takes no extra words.` |
+| `sort now` | `The sort command takes no extra words.` |
+| `help me` | `The help command takes no extra words.` |
+| `bye now` | `The bye command takes no extra words.` |
+
+**After `bye now` the window must stay open.** That is the check worth making,
+because the exit decision is a separate code path from the reply. Plain `bye`
+should then close it.
 
 ---
 
@@ -367,7 +408,56 @@ Only the command that actually writes reports a failure. Restore with
 
 ---
 
-## 15. GUI-specific behaviour
+## 15. The help command
+
+| Input |
+|---|
+| `help` |
+
+**Expect:**
+
+```
+Commands I understand:
+  todo DESCRIPTION
+  deadline DESCRIPTION /by yyyy-MM-dd HHmm
+  event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+  list
+  mark TASK_NUMBER
+  unmark TASK_NUMBER
+  delete TASK_NUMBER
+  find KEYWORD
+  sort
+  bye
+  help
+
+Numbers shown by find and sort are registry positions, so you can use
+them directly with mark, unmark and delete.
+```
+
+Check the bubble wraps cleanly at your window width. The `event` line is the
+longest and is the one that will wrap first.
+
+---
+
+## 16. Console entry point
+
+Not reachable from the GUI. Run from a terminal:
+
+```bash
+./gradlew compileJava -q
+printf 'todo x\n' | java -cp build/classes/java/main ev.EV
+```
+
+**Expect** the greeting, the task confirmation, and a clean exit with **no stack
+trace**. Input that ends without `bye` used to run the reader past the end of the
+stream and throw `NoSuchElementException` out of `main`.
+
+`./gradlew compileJava` first matters: running the classes directly does not
+rebuild them, so without it you are testing whatever was last compiled.
+
+---
+
+## 17. GUI-specific behaviour
 
 These cannot be reached from the console, so test them in the window.
 
@@ -382,6 +472,7 @@ These cannot be reached from the console, so test them in the window.
 | Add ten tasks | conversation scrolls, thin cyan scrollbar, auto-scrolls to newest |
 | Click into the input box | top edge turns cyan |
 | Hover Send, then press it | brightens, then inverts |
+| Type `help` | command list renders, lines do not wrap awkwardly |
 | Type `bye` | farewell shows, window closes after about 1.5 seconds |
 
 Also check the columns line up. In `list` output, the `[T][ ]` brackets on every
@@ -390,8 +481,10 @@ did not resolve.
 
 ---
 
-## 16. Exit
+## 18. Exit
 
 | Input | Expected |
 |---|---|
 | `bye` | `E.V. offline. Swing safe, Spidey.` then the window closes |
+
+The farewell has no blank line above it inside the bubble.
