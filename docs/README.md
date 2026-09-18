@@ -18,6 +18,24 @@ java -jar ev.jar
 E.V. creates `data/ev.txt` next to the jar to remember your tasks, so launch it
 from the same folder each time.
 
+## Command summary
+
+Words in `UPPER_CASE` are values you supply. Commands are lower case.
+
+| Command | Format |
+|---|---|
+| Add a todo | `todo DESCRIPTION` |
+| Add a deadline | `deadline DESCRIPTION /by yyyy-MM-dd HHmm` |
+| Add an event | `event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm` |
+| List all tasks | `list` |
+| Mark as done | `mark TASK_NUMBER` |
+| Mark as not done | `unmark TASK_NUMBER` |
+| Delete a task | `delete TASK_NUMBER` |
+| Search | `find KEYWORD` |
+| Sort by description | `sort` |
+| Show the command list | `help` |
+| Exit | `bye` |
+
 ## Adding a todo
 
 Adds a task with no date attached.
@@ -84,7 +102,16 @@ Task completed.
 [D][X] return book (by: Sep 18 2026, 6:00PM)
 ```
 
-Use `unmark 2` to reopen it, which replies with `Task reopened.` instead.
+## Marking a task as not done
+
+```
+unmark 2
+```
+
+```
+Task reopened.
+[D][ ] return book (by: Sep 18 2026, 6:00PM)
+```
 
 ## Finding tasks
 
@@ -151,6 +178,64 @@ help
 bye
 ```
 
+## When something goes wrong
+
+E.V. refuses input it cannot act on rather than guessing or silently ignoring it.
+Nothing below changes your tasks, so a mistyped command is always safe to retry.
+
+**Commands**
+
+| You type | E.V. says |
+|---|---|
+| `fly` | I'm sorry Spidey, but this command seems to be outside my current scope. Try again. |
+| `FLY` | the same. Commands are lower case |
+| *(nothing)* | No command entered. |
+| `sort buy` | The sort command takes no extra words. |
+
+`list`, `sort`, `help` and `bye` take no arguments. Extra words are refused so a
+command that did nothing never looks as though it worked.
+
+**Task numbers**
+
+| You type | E.V. says |
+|---|---|
+| `mark 0`, `mark 99` | No task with that number. |
+| `mark abc`, `mark` | Task number must be a number. |
+
+**Missing parts of a command**
+
+| You type | E.V. says |
+|---|---|
+| `todo` | A todo needs a description. |
+| `deadline x` | A deadline needs a description and a /by time. |
+| `event x` | An event needs a description and a /from time. |
+| `event x /from 2026-09-18 1400` | An event needs a /to time. |
+| `find` | Tell me what to search for. |
+
+**Dates and descriptions**
+
+| You type | E.V. says |
+|---|---|
+| `deadline x /by Sunday` | Dates must look like 2026-09-18 1800. |
+| `deadline x /by 2026-02-30 1800` | the same. The date does not exist |
+| `deadline x /by 2026-09-18 2400` | the same. There is no hour 24 |
+| `todo a \| b` | Descriptions cannot contain '\|'. It separates fields in my memory banks. |
+| `event x /from 2026-09-20 1600 /to 2026-09-20 1400` | An event cannot end before it starts. |
+
+Dates are checked against the real calendar. `2026-02-29` is refused because 2026
+is not a leap year, while `2024-02-29` is accepted.
+
+**The data file**
+
+| Situation | E.V. says |
+|---|---|
+| A line in `data/ev.txt` is damaged | Warning: 1 damaged entry in my memory banks was left out. |
+| The file cannot be read | I could not read my memory banks. |
+| The file cannot be written, e.g. it is read-only | I could not write to my memory banks. |
+
+A damaged line costs you that entry only. Every task E.V. can still read is kept,
+and the file is not rewritten until a command actually changes the registry.
+
 ## Saving
 
 Tasks are saved to `data/ev.txt` whenever you change the registry, and reloaded
@@ -159,30 +244,6 @@ registry, such as `list`, `find` and `sort`, leave the file untouched.
 
 If a line in the data file has been damaged, E.V. skips that line, tells you how
 many it left out, and keeps every task it could still read.
-
-## Command summary
-
-| Command | Format |
-|---|---|
-| Add a todo | `todo DESCRIPTION` |
-| Add a deadline | `deadline DESCRIPTION /by yyyy-MM-dd HHmm` |
-| Add an event | `event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm` |
-| List all tasks | `list` |
-| Mark as done | `mark TASK_NUMBER` |
-| Mark as not done | `unmark TASK_NUMBER` |
-| Delete a task | `delete TASK_NUMBER` |
-| Search | `find KEYWORD` |
-| Sort by description | `sort` |
-| Show the command list | `help` |
-| Exit | `bye` |
-
-`list`, `sort`, `help` and `bye` take no arguments. Anything typed after them is
-refused rather than ignored, so a command that had no effect never looks as
-though it worked.
-
-Two rules apply to every description. Dates must be real, so `2026-02-30 1800`
-is rejected rather than quietly moved to February 28. Descriptions cannot
-contain `|`, because that character separates fields in the data file.
 
 ## Acknowledgements
 
