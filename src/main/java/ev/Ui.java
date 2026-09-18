@@ -44,7 +44,7 @@ public class Ui {
      * @return the farewell shown when the user says bye.
      */
     public String getGoodbye() {
-        return "\nE.V. offline. Swing safe, Spidey.";
+        return "E.V. offline. Swing safe, Spidey.";
     }
 
     /**
