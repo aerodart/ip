@@ -40,3 +40,20 @@ java -jar build/libs/ev.jar
 ```
 
 This compiles the code, runs the unit tests and produces `build/libs/ev.jar`.
+
+## Acknowledgements
+
+- The JavaFX GUI scaffolding is adapted from the SE-EDU JavaFX tutorial:
+  <https://se-education.org/guides/tutorials/javaFx.html>
+  This covers `Main`, `Launcher`, `DialogBox` including its `fx:root` construction
+  and `flip()` method, the FXML view skeletons, and the Gradle shadow-jar setup.
+- The project skeleton is forked from the CS2103T iP template:
+  <https://github.com/NUS-CS2103-AY2627-S1/ip>
+- Artwork is third-party and used here only for a student project. None of it is
+  original work:
+  - Chat background, from peakpx:
+    <https://www.peakpx.com/en/hd-wallpaper-desktop-gobwf>
+  - E.V.'s avatar, a J.A.R.V.I.S. interface still, via ScreenRant:
+    <https://screenrant.com/spider-man-homecoming-jarvis/>
+  - The user's avatar, a frame from a Spider-Man GIF on Tenor:
+    <https://tenor.com/en-GB/view/spider-man-gif-5310236965465327623>
