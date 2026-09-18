@@ -41,12 +41,12 @@ Words in `UPPER_CASE` are values you supply. Commands are lower case.
 Adds a task with no date attached.
 
 ```
-todo borrow book
+todo buy coffee
 ```
 
 ```
 Task logged:
-  [T][ ] borrow book
+  [T][ ] buy coffee
 Registry holds 1 task.
 ```
 
@@ -55,12 +55,12 @@ Registry holds 1 task.
 Adds a task due at a given date and time. Dates use the format `yyyy-MM-dd HHmm`.
 
 ```
-deadline return book /by 2026-09-18 1800
+deadline submit homework /by 2026-09-18 1800
 ```
 
 ```
 Task logged:
-  [D][ ] return book (by: Sep 18 2026, 6:00PM)
+  [D][ ] submit homework (by: Sep 18 2026, 6:00PM)
 Registry holds 2 tasks.
 ```
 
@@ -69,12 +69,12 @@ Registry holds 2 tasks.
 Adds a task that runs between two date-times.
 
 ```
-event project meeting /from 2026-09-20 1400 /to 2026-09-20 1600
+event buy tea /from 2026-09-20 1400 /to 2026-09-20 1600
 ```
 
 ```
 Task logged:
-  [E][ ] project meeting (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
+  [E][ ] buy tea (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
 Registry holds 3 tasks.
 ```
 
@@ -86,9 +86,9 @@ list
 
 ```
 Current task registry:
-1.[T][ ] borrow book
-2.[D][ ] return book (by: Sep 18 2026, 6:00PM)
-3.[E][ ] project meeting (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
+1.[T][ ] buy coffee
+2.[D][ ] submit homework (by: Sep 18 2026, 6:00PM)
+3.[E][ ] buy tea (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
 ```
 
 ## Marking a task as done
@@ -99,7 +99,7 @@ mark 2
 
 ```
 Task completed.
-[D][X] return book (by: Sep 18 2026, 6:00PM)
+[D][X] submit homework (by: Sep 18 2026, 6:00PM)
 ```
 
 ## Marking a task as not done
@@ -110,26 +110,26 @@ unmark 2
 
 ```
 Task reopened.
-[D][ ] return book (by: Sep 18 2026, 6:00PM)
+[D][ ] submit homework (by: Sep 18 2026, 6:00PM)
 ```
 
 ## Finding tasks
 
 Lists every task whose description contains the keyword. Case is ignored, so
-`find book` also matches `Borrow Book`. Status icons, type tags and dates are
+`find coffee` also matches `Buy Coffee`. Status icons, type tags and dates are
 not searched. The keyword cannot be left out.
 
 Each result keeps its registry number, so you can pass the number shown straight
 to `mark`, `unmark` or `delete`.
 
 ```
-find book
+find buy
 ```
 
 ```
 Matching entries in the registry:
-1.[T][ ] borrow book
-2.[D][X] return book (by: Sep 18 2026, 6:00PM)
+1.[T][ ] buy coffee
+3.[E][ ] buy tea (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
 ```
 
 ## Sorting tasks
@@ -147,9 +147,9 @@ sort
 
 ```
 Registry sorted by description:
-1.[T][ ] borrow book
-3.[E][ ] project meeting (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
-2.[D][X] return book (by: Sep 18 2026, 6:00PM)
+1.[T][ ] buy coffee
+3.[E][ ] buy tea (from: Sep 20 2026, 2:00PM to: Sep 20 2026, 4:00PM)
+2.[D][ ] submit homework (by: Sep 18 2026, 6:00PM)
 ```
 
 ## Deleting a task
@@ -160,7 +160,7 @@ delete 1
 
 ```
 Task removed:
-  [T][ ] borrow book
+  [T][ ] buy coffee
 Registry holds 2 tasks.
 ```
 
@@ -253,11 +253,10 @@ many it left out, and keeps every task it could still read.
   and `flip()` method, the FXML view skeletons, and the Gradle shadow-jar setup.
 - The project skeleton is forked from the CS2103T iP template:
   <https://github.com/NUS-CS2103-AY2627-S1/ip>
-- Artwork is third-party and used here only for a student project. None of it is
-  original work:
+- Artwork is third-party and used here solely for this project. None of it is original work. The sources are:
   - Chat background, from peakpx:
     <https://www.peakpx.com/en/hd-wallpaper-desktop-gobwf>
-  - E.V.'s avatar, a J.A.R.V.I.S. interface still, via ScreenRant:
+  - E.V.'s avatar, a J.A.R.V.I.S. interface, via ScreenRant:
     <https://screenrant.com/spider-man-homecoming-jarvis/>
   - The user's avatar, a frame from a Spider-Man GIF on Tenor:
     <https://tenor.com/en-GB/view/spider-man-gif-5310236965465327623>
