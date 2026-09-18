@@ -3,7 +3,6 @@ package ev;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import ev.task.Task;
 
@@ -72,29 +71,57 @@ public class TaskList {
     }
 
     /**
-     * Returns the tasks whose descriptions contain the given text, case-ignored.
+     * Returns the position of every task in registry order, numbered from one.
      *
-     * @param keyword the text to search for.
-     * @return a registry holding only the matching tasks.
+     * @return the one-based positions of every task.
      */
-    public TaskList find(String keyword) {
-        String target = keyword.toLowerCase(Locale.ENGLISH);
+    public ArrayList<Integer> positions() {
+        ArrayList<Integer> positions = new ArrayList<>();
 
-        return new TaskList(tasks.stream()
-                .filter(task -> task.getDescription().toLowerCase(Locale.ENGLISH).contains(target))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        for (int i = 1; i <= tasks.size(); i++) {
+            positions.add(i);
+        }
+
+        return positions;
     }
 
     /**
-     * Returns a registry holding the same tasks ordered by description, case-ignored.
+     * Returns the positions of tasks whose descriptions contain the given text, in
+     * registry order and ignoring case. These are the same numbers mark, unmark and
+     * delete accept, so a result can be acted on directly.
      *
-     * @return a registry with the tasks sorted alphabetically.
+     * @param keyword the text to search for.
+     * @return the one-based positions of the matching tasks.
      */
-    public TaskList sortByDescription() {
-        return new TaskList(tasks.stream()
-                .sorted(Comparator.comparing(Task::getDescription, String.CASE_INSENSITIVE_ORDER))
-                .collect(Collectors.toCollection(ArrayList::new)));
+    public ArrayList<Integer> findPositions(String keyword) {
+        String target = keyword.toLowerCase(Locale.ENGLISH);
+        ArrayList<Integer> positions = new ArrayList<>();
+
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getDescription().toLowerCase(Locale.ENGLISH).contains(target)) {
+                positions.add(i + 1);
+            }
+        }
+
+        return positions;
     }
+
+    /**
+     * Returns every task's position ordered by description, ignoring case. The numbers
+     * are registry positions rather than a fresh count, so they will not run in order.
+     * That is deliberate: the number shown is the one mark, unmark and delete accept.
+     *
+     * @return the one-based positions of every task, in description order.
+     */
+    public ArrayList<Integer> sortedPositions() {
+        ArrayList<Integer> positions = positions();
+
+        positions.sort(Comparator.comparing(position -> tasks.get(position - 1).getDescription(),
+                String.CASE_INSENSITIVE_ORDER));
+
+        return positions;
+    }
+
 
     /**
      * Returns a registry holding the given tasks.

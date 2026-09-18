@@ -1,5 +1,6 @@
 package ev;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import ev.task.Task;
@@ -47,54 +48,60 @@ public class Ui {
     }
 
     /**
-     * Returns every task currently in the registry, numbered from one.
+     * Returns every task currently in the registry, in registry order.
      *
-     * @param tasks the tasks to list.
+     * @param tasks the registry to list.
      * @return the numbered registry listing.
      */
     public String getList(TaskList tasks) {
-        return formatNumberedList("Current task registry:", "The registry is empty.", tasks);
+        return formatPositions("Current task registry:", "The registry is empty.",
+                tasks, tasks.positions());
     }
 
     /**
-     * Returns the tasks matching a search, numbered from one.
+     * Returns the tasks matching a search, labelled with their registry positions.
      *
-     * @param tasks the matching tasks.
+     * @param tasks the registry the positions refer to.
+     * @param positions the one-based positions of the matching tasks.
      * @return the numbered listing of matches.
      */
-    public String getFound(TaskList tasks) {
-        return formatNumberedList("Matching entries in the registry:",
-                "Nothing in the registry matches that.", tasks);
+    public String getFound(TaskList tasks, ArrayList<Integer> positions) {
+        return formatPositions("Matching entries in the registry:",
+                "Nothing in the registry matches that.", tasks, positions);
     }
 
     /**
-     * Returns the sorted tasks, numbered from one.
+     * Returns the tasks in description order, labelled with their registry positions.
      *
-     * @param tasks the tasks to render in order.
+     * @param tasks the registry the positions refer to.
+     * @param positions the one-based positions in description order.
      * @return the numbered sorted listing.
      */
-    public String getSorted(TaskList tasks) {
-        return formatNumberedList("Registry sorted by description:", "The registry is empty.", tasks);
+    public String getSorted(TaskList tasks, ArrayList<Integer> positions) {
+        return formatPositions("Registry sorted by description:", "The registry is empty.",
+                tasks, positions);
     }
 
     /**
-     * Returns the given tasks under a header, numbered from one, or the empty message
-     * if there are none.
+     * Returns the given positions rendered one per line, each labelled with the number
+     * mark, unmark and delete accept for that task.
      *
      * @param header the line shown above the tasks.
-     * @param emptyMessage the text returned instead when there are no tasks.
-     * @param tasks the tasks to render.
+     * @param emptyMessage the text returned instead when there are no positions.
+     * @param tasks the registry the positions refer to.
+     * @param positions the one-based positions to render, in display order.
      * @return the header followed by the numbered tasks, or the empty message.
      */
-    private String formatNumberedList(String header, String emptyMessage, TaskList tasks) {
-        if (tasks.size() == 0) {
+    private String formatPositions(String header, String emptyMessage, TaskList tasks,
+            ArrayList<Integer> positions) {
+        if (positions.isEmpty()) {
             return emptyMessage;
         }
 
         StringBuilder builder = new StringBuilder(header);
 
-        for (int i = 0; i < tasks.size(); i++) {
-            builder.append("\n").append(i + 1).append(".").append(tasks.get(i));
+        for (int position : positions) {
+            builder.append("\n").append(position).append(".").append(tasks.get(position - 1));
         }
 
         return builder.toString();

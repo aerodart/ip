@@ -2,6 +2,8 @@ package ev;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import ev.task.Todo;
@@ -33,82 +35,69 @@ public class TaskListTest {
     }
 
     @Test
-    public void find_matchingKeyword_returnsOnlyMatches() {
-        TaskList tasks = new TaskList();
+    public void findPositions_matchingKeyword_returnsOnlyMatches() {
+        TaskList tasks = TaskList.of(new Todo("borrow book"),
+                new Todo("return book"), new Todo("buy milk"));
 
-        tasks.add(new Todo("borrow book"));
-        tasks.add(new Todo("return book"));
-        tasks.add(new Todo("buy milk"));
-
-        TaskList matches = tasks.find("book");
-
-        assertEquals(2, matches.size());
-        assertEquals("[T][ ] borrow book", matches.get(0).toString());
-        assertEquals("[T][ ] return book", matches.get(1).toString());
+        assertEquals(List.of(1, 2), tasks.findPositions("book"));
     }
 
     @Test
-    public void find_noMatch_returnsEmptyList() {
-        TaskList tasks = new TaskList();
+    public void findPositions_matchLaterInRegistry_returnsRealPosition() {
+        TaskList tasks = TaskList.of(new Todo("alpha"), new Todo("beta"), new Todo("buy milk"));
 
-        tasks.add(new Todo("borrow book"));
-
-        assertEquals(0, tasks.find("spiderman").size());
+        assertEquals(List.of(3), tasks.findPositions("buy"));
     }
 
     @Test
-    public void find_doesNotModifyOriginalList() {
-        TaskList tasks = new TaskList();
-
-        tasks.add(new Todo("borrow book"));
-        tasks.add(new Todo("buy milk"));
-        tasks.find("book");
-
-        assertEquals(2, tasks.size());
+    public void findPositions_noMatch_returnsEmptyList() {
+        assertEquals(List.of(), TaskList.of(new Todo("borrow book")).findPositions("spiderman"));
     }
 
     @Test
-    public void find_statusIcon_returnsNoMatches() {
-        TaskList tasks = new TaskList();
+    public void findPositions_differentCase_stillMatches() {
+        TaskList tasks = TaskList.of(new Todo("Borrow Book"));
+
+        assertEquals(List.of(1), tasks.findPositions("book"));
+        assertEquals(List.of(1), tasks.findPositions("BOOK"));
+    }
+
+    @Test
+    public void findPositions_statusIcon_returnsNoMatches() {
         Todo done = new Todo("borrow book");
 
         done.markAsDone();
-        tasks.add(done);
 
-        assertEquals(0, tasks.find("X").size());
+        assertEquals(List.of(), TaskList.of(done).findPositions("X"));
     }
 
     @Test
-    public void sortByDescription_unorderedTasks_returnsAlphabeticalOrder() {
-        TaskList tasks = new TaskList();
+    public void sortedPositions_unorderedTasks_returnsDescriptionOrder() {
+        TaskList tasks = TaskList.of(new Todo("write report"),
+                new Todo("borrow book"), new Todo("mail parcel"));
 
-        tasks.add(new Todo("write report"));
-        tasks.add(new Todo("borrow book"));
-        tasks.add(new Todo("mail parcel"));
+        assertEquals(List.of(2, 3, 1), tasks.sortedPositions());
+    }
 
-        TaskList sorted = tasks.sortByDescription();
+    @Test
+    public void sortedPositions_mixedCase_ignoresCase() {
+        TaskList tasks = TaskList.of(new Todo("apple"), new Todo("Zebra"), new Todo("banana"));
 
-        assertEquals("[T][ ] borrow book", sorted.get(0).toString());
-        assertEquals("[T][ ] mail parcel", sorted.get(1).toString());
-        assertEquals("[T][ ] write report", sorted.get(2).toString());
+        assertEquals(List.of(1, 3, 2), tasks.sortedPositions());
+    }
+
+    @Test
+    public void positions_threeTasks_returnsOneToThree() {
+        assertEquals(List.of(1, 2, 3),
+                TaskList.of(new Todo("a"), new Todo("b"), new Todo("c")).positions());
+    }
+
+    @Test
+    public void sortedPositions_doesNotReorderRegistry() {
+        TaskList tasks = TaskList.of(new Todo("write report"), new Todo("borrow book"));
+
+        tasks.sortedPositions();
+
         assertEquals("[T][ ] write report", tasks.get(0).toString());
-    }
-
-    @Test
-    public void find_differentCase_stillMatches() {
-        TaskList tasks = TaskList.of(new Todo("Borrow Book"));
-
-        assertEquals(1, tasks.find("book").size());
-        assertEquals(1, tasks.find("BOOK").size());
-    }
-
-    @Test
-    public void sortByDescription_mixedCase_ordersAlphabetically() {
-        TaskList sorted = TaskList.of(new Todo("apple"), new Todo("Zebra"), new Todo("banana"))
-                .sortByDescription();
-
-        assertEquals("[T][ ] apple", sorted.get(0).toString());
-        assertEquals("[T][ ] banana", sorted.get(1).toString());
-        assertEquals("[T][ ] Zebra", sorted.get(2).toString());
     }
 }
