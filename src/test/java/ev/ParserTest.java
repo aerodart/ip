@@ -1,5 +1,6 @@
 package ev;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -9,6 +10,19 @@ import org.junit.jupiter.api.Test;
  * Contains unit tests for {@link Parser}.
  */
 public class ParserTest {
+    @Test
+    public void requireNoArguments_extraText_throwsEvException() {
+        EvException thrown = assertThrows(
+                EvException.class, () -> Parser.requireNoArguments("sort", "buy"));
+
+        assertEquals("The sort command takes no extra words.", thrown.getMessage());
+    }
+
+    @Test
+    public void requireNoArguments_noText_doesNotThrow() {
+        assertDoesNotThrow(() -> Parser.requireNoArguments("sort", ""));
+    }
+
     @Test
     public void parseTaskIndex_validNumber_returnsZeroBasedIndex() throws EvException {
         assertEquals(0, Parser.parseTaskIndex("1", 3));
@@ -77,7 +91,7 @@ public class ParserTest {
     @Test
     public void parseEvent_endBeforeStart_throwsEvException() {
         assertThrows(
-            EvException.class, () -> Parser.parseEvent("x /from 2026-09-20 1600 /to 2026-09-20 1400"));
+                EvException.class, () -> Parser.parseEvent("x /from 2026-09-20 1600 /to 2026-09-20 1400"));
     }
 
     @Test

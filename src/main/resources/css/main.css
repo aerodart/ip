@@ -14,8 +14,8 @@
 .root {
     -fx-background-color: #07080c;
     -fx-background-image: url("../images/spiderman_background_wallpaper.jpg");
-    -fx-background-size: cover;
-    -fx-background-position: center top;
+    -fx-background-size: auto;
+    -fx-background-position: center center;
     -fx-background-repeat: no-repeat;
     -fx-font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
 }

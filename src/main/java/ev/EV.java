@@ -68,6 +68,7 @@ public class EV {
             Command command = Parser.parseCommand(input);
 
             if (command == Command.BYE) {
+                Parser.requireNoArguments("bye", Parser.parseArguments(input));
                 return ui.getGoodbye();
             }
 
@@ -91,7 +92,8 @@ public class EV {
      */
     public boolean isExit(String input) {
         try {
-            return Parser.parseCommand(input) == Command.BYE;
+            return Parser.parseCommand(input) == Command.BYE
+                    && Parser.parseArguments(input).isEmpty();
         } catch (EvException e) {
             return false;
         }
@@ -128,6 +130,7 @@ public class EV {
     private String execute(Command command, String arguments) throws EvException {
         switch (command) {
             case LIST:
+                Parser.requireNoArguments("list", arguments);
                 return ui.getList(tasks);
             case MARK:
                 return markTask(arguments);
@@ -144,6 +147,7 @@ public class EV {
             case FIND:
                 return ui.getFound(tasks, tasks.findPositions(Parser.parseSearchKeyword(arguments)));
             case SORT:
+                Parser.requireNoArguments("sort", arguments);
                 return ui.getSorted(tasks, tasks.sortedPositions());
             default:
                 throw new EvException("E.V. does not know how to run that command yet.");

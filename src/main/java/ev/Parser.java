@@ -54,6 +54,20 @@ public class Parser {
     }
 
     /**
+     * Checks that a command which takes no arguments was given none. Silently ignoring
+     * the extra text would leave the user believing the words they typed had an effect.
+     *
+     * @param commandWord the keyword the user typed, used in the error message.
+     * @param arguments the text following the command word.
+     * @throws EvException if any argument text was given.
+     */
+    public static void requireNoArguments(String commandWord, String arguments) throws EvException {
+        if (!arguments.isEmpty()) {
+            throw new EvException("The " + commandWord + " command takes no extra words.");
+        }
+    }
+
+    /**
      * Converts the argument of a mark, unmark or delete command into a task index.
      *
      * @param arguments the text following the command word.
