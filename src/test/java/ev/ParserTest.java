@@ -101,6 +101,11 @@ public class ParserTest {
     }
 
     @Test
+    public void parseCommand_help_returnsHelpCommand() throws EvException {
+        assertEquals(Command.HELP, Parser.parseCommand("help"));
+    }
+
+    @Test
     public void parseArguments_extraWhitespace_returnsTrimmedText() {
         assertEquals("read book", Parser.parseArguments("  todo   read book  "));
     }

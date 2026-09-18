@@ -13,7 +13,8 @@ public enum Command {
     DEADLINE("deadline", true),
     EVENT("event", true),
     FIND("find", false),
-    SORT("sort", false);
+    SORT("sort", false),
+    HELP("help", false);
 
     private final String keyword;
     private final boolean isMutating;

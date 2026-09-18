@@ -173,6 +173,29 @@ public class Ui {
     }
 
     /**
+     * Returns the commands E.V. understands and the format of each.
+     *
+     * @return the help message.
+     */
+    public String getHelp() {
+        return "Commands I understand:\n\n"
+                + "  todo DESCRIPTION\n"
+                + "  deadline DESCRIPTION /by yyyy-MM-dd HHmm\n"
+                + "  event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm\n"
+                + "  list\n"
+                + "  mark TASK_NUMBER\n"
+                + "  unmark TASK_NUMBER\n"
+                + "  delete TASK_NUMBER\n"
+                + "  find KEYWORD\n"
+                + "  sort\n"
+                + "  bye\n"
+                + "  help\n"
+                + "\n"
+                + "Numbers shown by find and sort are registry positions, so you can use\n"
+                + "them directly with mark, unmark and delete.";
+    }
+
+    /**
      * Closes the input source.
      */
     public void close() {

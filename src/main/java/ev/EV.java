@@ -149,6 +149,9 @@ public class EV {
             case SORT:
                 Parser.requireNoArguments("sort", arguments);
                 return ui.getSorted(tasks, tasks.sortedPositions());
+            case HELP:
+                Parser.requireNoArguments("help", arguments);
+                return ui.getHelp();
             default:
                 throw new EvException("E.V. does not know how to run that command yet.");
         }
