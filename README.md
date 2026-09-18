@@ -3,7 +3,9 @@
 [![Java CI](https://github.com/aerodart/ip/actions/workflows/gradle.yml/badge.svg)](https://github.com/aerodart/ip/actions/workflows/gradle.yml)
 
 E.V. is a JavaFX desktop task assistant that keeps track of your todos,
-deadlines and events, and remembers them between sessions.
+deadlines and events, and remembers them between sessions. It is themed after
+*Spider-Man: Brand New Day*, with a heads-up display interface and a suit-AI
+persona.
 
 [User guide](https://aerodart.github.io/ip/)
 

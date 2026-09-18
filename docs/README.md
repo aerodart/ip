@@ -3,6 +3,9 @@
 E.V. is a desktop assistant that tracks your tasks and remembers them between
 sessions. You talk to it by typing commands into a chat window.
 
+It is themed after *Spider-Man: Brand New Day*. E.V. is the suit AI, it calls
+you Spidey, and the interface is styled as a heads-up display.
+
 ![E.V. in action](Ui.png)
 
 ## Quick start
